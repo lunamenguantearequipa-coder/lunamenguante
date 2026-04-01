@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luna Menguante — Talleres de Tarot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</script>
+<style>
+  :root {
+    --cream: #faf6ef; --sand: #ede0cc; --terracotta: #8b3a2a;
+    --coral: #a04a38; --gold: #9a6e28; --gold-light: #b8893c;
+    --deep: #f5efe6; --brown: #3d2314; --muted: #7a6050;
+    --text-main: #2a1a0e; --text-sub: #5a3a28; --card-bg: #ffffff;
+    --card-border: rgba(180,140,80,0.25); --nav-bg: rgba(250,246,239,0.97);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #f5efe6; color: var(--text-main); font-family: 'Jost', sans-serif; font-weight: 300; overflow-x: hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.6; }
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:1rem 2.5rem; display:flex; justify-content:space-between; align-items:center; background:rgba(250,246,239,0.97); backdrop-filter:blur(8px); border-bottom:1px solid rgba(180,140,80,0.2); box-shadow:0 2px 20px rgba(0,0,0,0.06); }
+  .nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600; letter-spacing:0.12em; color:var(--text-main); text-decoration:none; }
+  .nav-links { display:flex; gap:2rem; list-style:none; }
+  .nav-links a, .nav-btn { color:var(--text-sub); text-decoration:none; font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; transition:color 0.3s; background:none; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-weight:300; padding:0; }
+  .nav-links a:hover, .nav-btn:hover { color:var(--gold-light); }
+  .hero { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6rem 2rem 4rem; overflow:hidden; background:linear-gradient(160deg,#f0e8d8 0%,#faf6ef 60%,#ede4d0 100%); }
+  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 60% 70% at 50% 40%,rgba(180,140,60,0.15) 0%,transparent 70%),radial-gradient(ellipse 40% 50% at 80% 20%,rgba(180,100,60,0.08) 0%,transparent 60%); }
+  .stars { position:absolute; inset:0; pointer-events:none; }
+  .star { position:absolute; border-radius:50%; background:var(--gold-light); animation:twinkle var(--d,3s) ease-in-out infinite; }
+  @keyframes twinkle { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.8;transform:scale(1.3)} }
+  .moon { width:160px; height:160px; margin-bottom:2rem; animation:moonFloat 6s ease-in-out infinite; filter:drop-shadow(0 0 30px rgba(201,168,76,0.4)); }
+  @keyframes moonFloat { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-12px) rotate(-5deg)} }
+  .hero-tag { font-size:0.72rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; opacity:0; animation:fadeUp 0.8s 0.3s forwards; }
+  .hero-title { font-family:'Cormorant Garamond',serif; font-size:clamp(3.5rem,10vw,7rem); font-weight:300; line-height:0.95; color:var(--text-main); opacity:0; animation:fadeUp 0.8s 0.5s forwards; }
+  .hero-title em { font-style:italic; color:var(--gold-light); }
+  .hero-sub { font-size:1rem; color:var(--text-sub); max-width:480px; line-height:1.7; margin-top:1.5rem; opacity:0; animation:fadeUp 0.8s 0.7s forwards; }
+  .hero-cta { display:inline-block; margin-top:2.5rem; padding:1rem 2.5rem; background:#2a1a0e; border:2px solid #2a1a0e; color:#f5efe6; text-decoration:none; font-size:0.78rem; letter-spacing:0.25em; text-transform:uppercase; transition:all 0.3s; opacity:0; animation:fadeUp 0.8s 0.9s forwards; cursor:pointer; font-family:'Jost',sans-serif; border-radius:2px; font-weight:600; }
+  .hero-cta:hover { background:#6b2737; border-color:#6b2737; color:#f5efe6; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  section { position:relative; z-index:1; }
+  .city-section { padding:5rem 2rem 3rem; text-align:center; background:#faf6ef; }
+  .section-label { font-size:0.7rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:0.8rem; font-weight:600; }
+  .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:300; line-height:1.1; color:var(--text-main); }
+  .section-title em { font-style:italic; color:var(--gold-light); }
+  .city-cards { display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; margin-top:3rem; }
+  .city-card { cursor:pointer; padding:3rem 3.5rem; border:1px solid rgba(180,140,80,0.25); background:#ffffff; box-shadow:0 4px 20px rgba(0,0,0,0.06); transition:all 0.4s; position:relative; overflow:hidden; min-width:220px; }
+  .city-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(to right,transparent,var(--gold),transparent); }
+  .city-card:hover, .city-card.active { border-color:rgba(180,140,80,0.6); transform:translateY(-4px); background:#fff8ee; box-shadow:0 8px 30px rgba(180,140,80,0.15); }
+  .city-card-icon { font-size:2.5rem; margin-bottom:1rem; display:block; }
+  .city-card-name { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--text-main); }
+  .city-content { display:none; }
+  .city-content.active { display:block; }
+  .lima-msg { max-width:600px; margin:0 auto; padding:4rem 2rem; text-align:center; }
+  .lima-msg-box { border:1px solid rgba(201,168,76,0.2); padding:3.5rem 2.5rem; background:linear-gradient(135deg,rgba(61,35,20,0.4),rgba(26,18,11,0.6)); position:relative; }
+  .lima-msg-box::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(to right,transparent,var(--gold),transparent); }
+  .lima-msg-box .big-icon { font-size:3rem; margin-bottom:1.5rem; }
+  .lima-msg-box h3 { font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:var(--gold-light); margin-bottom:1rem; line-height:1.2; }
+  .lima-msg-box p { color:var(--sand); font-size:0.95rem; line-height:1.7; }
+  .divider { display:flex; align-items:center; gap:1rem; margin:0 auto; max-width:300px; padding:2rem 0; }
+  .divider::before,.divider::after { content:''; flex:1; height:1px; background:linear-gradient(to right,transparent,rgba(180,140,80,0.4),transparent); }
+  .divider span { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--gold); }
+  .talleres { padding:1rem 2rem 4rem; max-width:1100px; margin:0 auto; }
+  .talleres-header { text-align:center; margin-bottom:3.5rem; }
+  .talleres-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; }
+  .taller-card { position:relative; background:#ffffff; border:1px solid rgba(180,140,80,0.2); box-shadow:0 4px 16px rgba(0,0,0,0.06); padding:2.5rem; transition:transform 0.4s,border-color 0.4s; overflow:hidden; }
+  .taller-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(to right,transparent,var(--gold),transparent); }
+  .taller-card:hover { transform:translateY(-4px); border-color:rgba(180,140,80,0.5); box-shadow:0 8px 28px rgba(0,0,0,0.1); }
+  .taller-icon { font-size:2.5rem; margin-bottom:1.2rem; }
+  .taller-tipo { font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase; color:#6b2737; margin-bottom:0.5rem; font-weight:600; }
+  .taller-nombre { font-family:'Cormorant Garamond',serif; font-size:1.9rem; font-weight:400; color:var(--text-main); line-height:1.1; margin-bottom:1rem; }
+  .taller-desc { font-size:0.88rem; color:var(--text-sub); line-height:1.7; margin-bottom:1.5rem; }
+  .taller-incluye { margin-bottom:1.2rem; }
+  .incluye-titulo { font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:#6b2737; margin-bottom:0.5rem; font-weight:600; }
+  .taller-incluye ul { list-style:none; display:flex; flex-direction:column; gap:0.3rem; }
+  .taller-incluye li { font-size:0.83rem; color:var(--text-sub); line-height:1.5; }
+  .taller-info { display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1.5rem; }
+  .taller-info-item { display:flex; align-items:flex-start; gap:0.6rem; font-size:0.82rem; color:var(--text-sub); }
+  .precio-wrap { display:flex; align-items:baseline; gap:0.8rem; margin-bottom:0.3rem; }
+  .precio-principal { font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:#2a1a0e; font-weight:700; }
+  .taller-precio-sub { font-size:0.75rem; color:var(--muted); margin-bottom:1.5rem; }
+  .btn-reservar { display:inline-block; width:100%; padding:0.9rem; background:#2a1a0e; color:#f5efe6; text-align:center; text-decoration:none; font-size:0.78rem; letter-spacing:0.2em; text-transform:uppercase; border:none; cursor:pointer; transition:all 0.25s; font-family:'Jost',sans-serif; border-radius:2px; }
+  .btn-reservar:hover { background:#6b2737; color:#f5efe6; transform:translateY(-1px); }
+  .proceso { padding:2rem 2rem 4rem; background:#ede8df; }
+  .proceso-inner { max-width:900px; margin:0 auto; text-align:center; }
+  .proceso-steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:2rem; margin-top:3rem; }
+  .step { display:flex; flex-direction:column; align-items:center; gap:1rem; }
+  .step-num { width:52px; height:52px; border:2px solid #6b2737; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:#6b2737; background:#fff; }
+  .step-title { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--text-main); }
+  .step-desc { font-size:0.82rem; color:var(--text-sub); line-height:1.6; text-align:center; }
+  .registro { padding:2rem 2rem 5rem; max-width:750px; margin:0 auto; }
+  .registro-header { text-align:center; margin-bottom:3rem; }
+  .form-card { background:#ffffff; border:1px solid rgba(180,140,80,0.2); box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:3rem; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+  .form-group { display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1.2rem; }
+  .form-group.full { grid-column:1/-1; }
+  label { font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); }
+  .required-star { color:var(--coral); }
+  input,select,textarea { background:#faf6ef; border:1px solid rgba(180,140,80,0.25); color:var(--text-main); padding:0.85rem 1rem; font-family:'Jost',sans-serif; font-size:0.9rem; font-weight:300; transition:border-color 0.3s; outline:none; width:100%; }
+  input:focus,select:focus,textarea:focus { border-color:var(--gold); background:#fff8ee; outline:none; }
+  input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(0.7) sepia(1) saturate(2) hue-rotate(10deg); cursor:pointer; }
+  input[type="number"]::-webkit-inner-spin-button { opacity:0.5; }
+  select option { background:var(--brown); color:var(--cream); }
+  .form-note { font-size:0.78rem; color:var(--muted); line-height:1.5; margin-top:0.3rem; }
+
+  /* MONTO BOX */
+  .cupos-selector { display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:0.5rem; }
+  .cupo-btn { padding:0.65rem 1.2rem; border:1.5px solid #c5b8a8; background:#faf6ef; color:#3d2b1f; font-family:'Jost',sans-serif; font-size:0.82rem; cursor:pointer; transition:all 0.25s; border-radius:2px; font-weight:500; }
+  .cupo-btn:hover, .cupo-btn.active { border-color:#6b2737; background:#6b2737; color:#f5efe6; }
+  .monto-opciones { display:flex; gap:0.8rem; margin-bottom:0.8rem; flex-wrap:wrap; }
+  .monto-opcion { flex:1; padding:0.8rem; border:1.5px solid #c5b8a8; background:#faf6ef; color:#3d2b1f; font-family:'Jost',sans-serif; font-size:0.8rem; letter-spacing:0.1em; text-align:center; cursor:pointer; transition:all 0.25s; border-radius:2px; font-weight:500; }
+  .monto-opcion:hover { border-color:#6b2737; background:#6b2737; color:#f5efe6; } .monto-opcion.active { border-color:#6b2737; background:#6b2737; color:#f5efe6; font-weight:700; }
+  .monto-custom { display:none; }
+  .monto-custom.show { display:block; }
+  .monto-prefix { display:flex; align-items:center; }
+  .monto-prefix span { padding:0.85rem 1rem; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); border-right:none; color:var(--gold); font-size:0.9rem; white-space:nowrap; }
+  .monto-prefix input { border-left:none; }
+
+  .yape-box { background:rgba(212,135,106,0.08); border:1px solid rgba(212,135,106,0.25); padding:1.5rem; margin-bottom:1.5rem; text-align:center; }
+  .yape-box-title { font-family:'Cormorant Garamond',serif; font-size:1rem; color:#6b2737; margin-bottom:0.4rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; font-family:'Jost',sans-serif; font-size:0.8rem; }
+  .yape-num { font-size:1.6rem; font-weight:700; color:#6b2737 !important; letter-spacing:0.08em; text-decoration:none !important; }
+  .yape-name { font-size:0.85rem; color:#5a3a28; margin-top:0.2rem; font-weight:500; }
+  .upload-area { border:1px dashed rgba(201,168,76,0.35); padding:2rem; text-align:center; cursor:pointer; transition:all 0.3s; position:relative; background:rgba(255,255,255,0.02); }
+  .upload-area:hover { border-color:var(--gold); background:rgba(201,168,76,0.06); }
+  .upload-area input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+  .upload-icon { font-size:2rem; margin-bottom:0.5rem; }
+  .upload-text { font-size:0.82rem; color:var(--muted); line-height:1.6; }
+  .upload-text strong { color:var(--gold); }
+  .upload-preview { display:none; margin-top:1rem; }
+  .upload-preview img { max-width:100%; max-height:200px; object-fit:contain; border:1px solid rgba(201,168,76,0.2); }
+  .remove-img { display:inline-block; margin-top:0.5rem; font-size:0.75rem; color:var(--coral); cursor:pointer; letter-spacing:0.1em; text-transform:uppercase; background:none; border:none; font-family:'Jost',sans-serif; }
+  .btn-submit { width:100%; padding:1.1rem; background:#2a1a0e; color:#f5efe6; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:0.85rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; transition:all 0.25s; margin-top:0.5rem; border-radius:2px; }
+  .btn-submit:hover { background:#6b2737; }
+  .btn-submit:disabled { opacity:0.5; cursor:not-allowed; }
+  .success-msg { display:none; text-align:center; padding:3rem 2rem; background:#fff8ee; border:2px solid rgba(180,140,80,0.3); border-radius:8px; }
+  .success-msg.show { display:block; }
+  .success-msg .icon { font-size:3.5rem; margin-bottom:1rem; }
+  .success-msg h3 { font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:#2a1a0e; margin-bottom:1rem; font-weight:700; }
+  .success-msg p { color:#3d2b1f; font-size:0.95rem; line-height:1.8; max-width:440px; margin:0 auto; }
+  .success-msg { position:relative; }
+  .success-close-x { position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.1rem; color:#c5b8a8; cursor:pointer; line-height:1; padding:4px 8px; border-radius:50%; transition:all 0.2s; }
+  .success-close-x:hover { color:#6b2737; background:#f0e8dc; }
+  .success-btn-gracias { margin-top:2rem; display:inline-block; padding:0.75rem 2.5rem; background:#2a1a0e; border:none; color:#f5efe6; font-family:'Jost',sans-serif; font-size:0.8rem; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; border-radius:4px; transition:all 0.2s; }
+  .success-btn-gracias:hover { background:#6b2737; }
+  .modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(10,6,3,0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:2rem; }
+  .modal-overlay.open { display:flex; }
+  .modal-box { position:relative; max-width:600px; width:100%; background:linear-gradient(135deg,rgba(61,35,20,0.95),rgba(26,18,11,0.98)); border:1px solid rgba(201,168,76,0.25); padding:3.5rem 3rem; animation:fadeUp 0.4s forwards; }
+  .modal-box::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(to right,transparent,var(--gold),transparent); }
+  .modal-close { position:absolute; top:1.2rem; right:1.5rem; background:none; border:none; color:var(--muted); font-size:1.2rem; cursor:pointer; transition:color 0.3s; font-family:'Jost',sans-serif; }
+  .modal-close:hover { color:var(--gold-light); }
+  .modal-label { font-size:0.7rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:0.8rem; }
+  .modal-title { font-family:'Cormorant Garamond',serif; font-size:2.5rem; font-weight:300; color:var(--cream); margin-bottom:1.5rem; line-height:1.1; }
+  .modal-title em { font-style:italic; color:var(--gold-light); }
+  .modal-text { color:var(--sand); font-size:0.95rem; line-height:1.9; }
+  .modal-text p { margin-bottom:1rem; }
+  .modal-text p:last-child { margin-bottom:0; }
+  /* ── ADMIN PANEL ──────────────── */
+  .admin-section { padding:3rem 2rem; max-width:1200px; margin:0 auto; display:none; background:#f5efe6; min-height:100vh; }
+  .admin-section.open { display:block; }
+  .admin-login { max-width:400px; margin:0 auto; text-align:center; padding:3rem 2.5rem; background:#fff; border:1px solid #e8ddd0; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,0.08); }
+  .admin-login h3 { font-family:'Cormorant Garamond',serif; font-size:2rem; color:#2a1a0e; margin-bottom:0.4rem; }
+  .admin-login p { font-size:0.85rem; color:#7a6050; margin-bottom:1.8rem; }
+  .pass-wrap { position:relative; margin-bottom:1rem; }
+  .pass-wrap input { margin-bottom:0; }
+  .pass-eye { position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#8a7060; font-size:1rem; padding:4px; transition:color 0.2s; }
+  .pass-eye:hover { color:#6b2737; }
+  .btn-login { width:100%; padding:0.95rem; background:#2a1a0e; color:#f5efe6; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:0.82rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; transition:background 0.2s; border-radius:4px; margin-top:0.5rem; }
+  .btn-login:hover { background:#6b2737; }
+  .login-error { color:#c0392b; font-size:0.82rem; margin-top:0.8rem; display:none; background:#fde8e8; padding:8px 12px; border-radius:4px; }
+  .admin-dashboard { display:none; }
+  .admin-dashboard.open { display:block; }
+  .admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem; padding-bottom:1.2rem; border-bottom:2px solid #e8ddd0; }
+  .admin-title { font-family:'Cormorant Garamond',serif; font-size:2rem; color:#2a1a0e; font-weight:700; }
+  .admin-actions { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; }
+  .btn-export { padding:0.6rem 1.4rem; background:#9a6e28; color:#fff; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; transition:background 0.2s; border-radius:4px; }
+  .btn-export:hover { background:#7a5018; }
+  .btn-refresh { padding:0.6rem 1.4rem; background:#6b2737; color:#fff; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; transition:background 0.2s; border-radius:4px; }
+  .btn-refresh:hover { background:#4a1828; }
+  .btn-logout { padding:0.6rem 1.4rem; background:transparent; color:#7a6050; border:1.5px solid #c5b8a8; cursor:pointer; font-family:'Jost',sans-serif; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; transition:all 0.2s; border-radius:4px; }
+  .btn-logout:hover { border-color:#6b2737; color:#6b2737; }
+  .admin-tabs { display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+  .tab-btn { padding:0.45rem 1.1rem; border:1.5px solid #c5b8a8; background:#fff; color:#5a3a28; cursor:pointer; font-family:'Jost',sans-serif; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; transition:all 0.2s; border-radius:4px; }
+  .tab-btn.active,.tab-btn:hover { border-color:#6b2737; background:#6b2737; color:#fff; }
+  .admin-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin-bottom:2rem; }
+  .stat-box { background:#fff; border:1px solid #e8ddd0; padding:1.4rem; text-align:center; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+  .stat-num { font-family:'Cormorant Garamond',serif; font-size:2.4rem; color:#6b2737; line-height:1; font-weight:700; }
+  .stat-label { font-size:0.72rem; color:#8a7060; letter-spacing:0.1em; margin-top:0.4rem; text-transform:uppercase; }
+  .registros-table-wrap { overflow-x:auto; background:#fff; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+  table { width:100%; border-collapse:collapse; font-size:0.83rem; }
+  th { padding:0.9rem 1rem; text-align:left; font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase; color:#6b2737; border-bottom:2px solid #f0e8dc; white-space:nowrap; background:#fff8ee; font-weight:700; }
+  td { padding:0.9rem 1rem; border-bottom:1px solid #f0e8dc; color:#2a1a0e; vertical-align:top; }
+  tr:hover td { background:#fff8ee; }
+  .badge { display:inline-block; padding:0.25rem 0.8rem; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; border-radius:4px; font-weight:600; }
+  .badge-predictivo { background:#fdf0f2; color:#6b2737; border:1px solid rgba(107,39,55,0.2); }
+  .badge-oraculo { background:#f0f4ff; color:#1a3a5c; border:1px solid rgba(26,58,92,0.2); }
+  .empty-state { text-align:center; padding:3rem; color:#8a7060; font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-style:italic; }
+  .admin-loading { text-align:center; padding:2rem; color:#8a7060; font-size:0.85rem; letter-spacing:0.1em; }
+  footer { text-align:center; padding:3rem 2rem; border-top:1px solid #e8ddd0; color:#8a7060; font-size:0.78rem; letter-spacing:0.1em; background:#2a1a0e; color:#c8a870; }
+  footer strong { color:#f0d080; font-weight:400; }
+  .footer-admin-btn { color:rgba(200,168,112,0.3); cursor:pointer; font-size:0.7rem; transition:color 0.3s; background:none; border:none; font-family:'Jost',sans-serif; display:block; margin:1rem auto 0; letter-spacing:0.1em; }
+  .footer-admin-btn:hover { color:rgba(200,168,112,0.6); }
+  @media(max-width:600px){
+    .form-row{grid-template-columns:1fr}
+    nav{padding:1rem 1.5rem}
+    .nav-links{display:none}
+    .form-card{padding:1.8rem 1.2rem}
+    .city-cards{flex-direction:column;align-items:center}
+    .city-card{width:100%;max-width:280px}
+    .monto-opciones{flex-direction:column}
+  }
+
+  /* ── AGENDA CARDS ───────────────────────────── */
+  .agenda-wrap { max-width:960px; margin:0 auto; padding:3rem 2rem 1rem; }
+  .agenda-titulo { text-align:center; margin-bottom:2rem; }
+  .agenda-titulo .section-label { margin-bottom:0.5rem; }
+  .agenda-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.4rem; margin-bottom:2.5rem; }
+  .agenda-card {
+    background:#fff;
+    border:1px solid #e8ddd0;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 4px 16px rgba(0,0,0,0.07);
+    transition:transform 0.2s, box-shadow 0.2s;
+  }
+  .agenda-card:hover { transform:translateY(-3px); box-shadow:0 10px 28px rgba(0,0,0,0.1); }
+  .agenda-card-header {
+    background:#6b2737;
+    padding:1.1rem 1.3rem;
+    display:flex;
+    align-items:center;
+    gap:1rem;
+  }
+  .agenda-card-header.dorado { background:#9a6e28; }
+  .agenda-fecha-num {
+    font-family:'Cormorant Garamond',serif;
+    font-size:2.4rem;
+    font-weight:700;
+    color:#fff;
+    line-height:1;
+    min-width:2.2rem;
+  }
+  .agenda-fecha-info { display:flex; flex-direction:column; gap:1px; }
+  .agenda-fecha-dia {
+    font-family:'Jost',sans-serif;
+    font-size:0.65rem;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.65);
+  }
+  .agenda-fecha-mes {
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.05rem;
+    color:#f0d080;
+    font-weight:600;
+    line-height:1.2;
+  }
+  .agenda-lugar {
+    font-family:'Jost',sans-serif;
+    font-size:0.68rem;
+    color:rgba(255,255,255,0.5);
+    margin-top:3px;
+  }
+  .agenda-card-body { padding:0; }
+  .agenda-taller-row {
+    padding:0.9rem 1.3rem;
+    border-bottom:1px solid #f0e8dc;
+    background:#fff;
+  }
+  .agenda-taller-row:last-child { border-bottom:none; }
+  .agenda-taller-top {
+    display:flex;
+    align-items:baseline;
+    gap:0.7rem;
+    margin-bottom:0.6rem;
+  }
+  .agenda-hora {
+    font-family:'Jost',sans-serif;
+    font-size:0.7rem;
+    font-weight:700;
+    color:#6b2737;
+    background:#fdf0f2;
+    padding:2px 7px;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+  .agenda-nombre {
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.05rem;
+    color:#2a1a0e;
+    font-weight:600;
+    flex:1;
+  }
+  .agenda-precio {
+    font-family:'Jost',sans-serif;
+    font-size:0.75rem;
+    color:#6b2737;
+    font-weight:700;
+  }
+  .agenda-btns {
+    display:flex;
+    gap:0.5rem;
+  }
+  .agenda-btn-info {
+    flex:1;
+    padding:0.42rem 0.6rem;
+    border:1.5px solid #c5b8a8;
+    background:#fff;
+    color:#5a3a28;
+    font-family:'Jost',sans-serif;
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-radius:3px;
+    transition:all 0.2s;
+    text-align:center;
+  }
+  .agenda-btn-info:hover { border-color:#6b2737; color:#6b2737; background:#fff8ee; }
+  .agenda-btn-inscribir {
+    flex:1;
+    padding:0.42rem 0.6rem;
+    border:1.5px solid #6b2737;
+    background:#6b2737;
+    color:#fff;
+    font-family:'Jost',sans-serif;
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-radius:3px;
+    transition:all 0.2s;
+    text-align:center;
+  }
+  .agenda-btn-inscribir:hover { background:#4a1828; border-color:#4a1828; }
+  .agenda-cafecito-note {
+    font-size:0.73rem;
+    color:#8a7060;
+    line-height:1.5;
+    margin-top:0.6rem;
+    font-style:italic;
+  }
+  .agenda-divider {
+    text-align:center;
+    padding:0.5rem 0 1.5rem;
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.3rem;
+    color:#c5b8a8;
+    letter-spacing:8px;
+  }
+
+  
+  /* ── MODAL VER MÁS ──────────────────────────── */
+  .modal-taller-overlay {
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(42,26,14,0.7);
+    z-index:500;
+    align-items:center;
+    justify-content:center;
+    padding:1rem;
+    backdrop-filter:blur(4px);
+  }
+  .modal-taller-overlay.open { display:flex; }
+  .modal-taller-box {
+    background:#fff;
+    max-width:520px;
+    width:100%;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,0.25);
+    animation:modalIn 0.25s ease;
+    max-height:90vh;
+    overflow-y:auto;
+  }
+  @keyframes modalIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .modal-taller-header {
+    background:#6b2737;
+    padding:1.2rem 1.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+  }
+  .modal-taller-header h3 {
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.6rem;
+    color:#fff;
+    font-weight:600;
+    line-height:1.2;
+  }
+  .modal-taller-header .modal-precio {
+    font-family:'Jost',sans-serif;
+    font-size:0.8rem;
+    color:#f0d080;
+    font-weight:700;
+    margin-top:4px;
+    letter-spacing:0.05em;
+  }
+  .modal-close-btn {
+    background:rgba(255,255,255,0.15);
+    border:none;
+    color:#fff;
+    font-size:1.2rem;
+    cursor:pointer;
+    border-radius:50%;
+    width:32px;
+    height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    transition:background 0.2s;
+  }
+  .modal-close-btn:hover { background:rgba(255,255,255,0.3); }
+  .modal-taller-body { padding:1.5rem; }
+  .modal-fecha-lugar {
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    margin-bottom:1.2rem;
+    padding-bottom:1.2rem;
+    border-bottom:1px solid #f0e8dc;
+  }
+  .modal-fecha-lugar span {
+    font-family:'Jost',sans-serif;
+    font-size:0.83rem;
+    color:#5a3a28;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .modal-desc {
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.05rem;
+    color:#2a1a0e;
+    line-height:1.7;
+    margin-bottom:1.2rem;
+  }
+  .modal-incluye-title {
+    font-family:'Jost',sans-serif;
+    font-size:0.68rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:#6b2737;
+    font-weight:700;
+    margin-bottom:0.5rem;
+  }
+  .modal-incluye-list {
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    margin-bottom:1.5rem;
+  }
+  .modal-incluye-list li {
+    font-family:'Jost',sans-serif;
+    font-size:0.85rem;
+    color:#3d2b1f;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .modal-actions {
+    display:flex;
+    gap:0.8rem;
+  }
+  .modal-btn-inscribir {
+    flex:2;
+    padding:0.85rem;
+    background:#6b2737;
+    color:#fff;
+    border:none;
+    font-family:'Jost',sans-serif;
+    font-size:0.8rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-radius:4px;
+    font-weight:700;
+    transition:background 0.2s;
+  }
+  .modal-btn-inscribir:hover { background:#4a1828; }
+  .modal-btn-otros {
+    flex:1;
+    padding:0.85rem;
+    background:#fff;
+    color:#5a3a28;
+    border:1.5px solid #c5b8a8;
+    font-family:'Jost',sans-serif;
+    font-size:0.8rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-radius:4px;
+    transition:all 0.2s;
+  }
+  .modal-btn-otros:hover { border-color:#6b2737; color:#6b2737; }
+
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">&#9789; Luna Menguante</a>
+  <ul class="nav-links">
+    
+    <li><button class="nav-btn" onclick="openAdmin()">Panel</button></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="stars" id="stars"></div>
+  <svg class="moon" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="mg" cx="40%" cy="40%">
+        <stop offset="0%" stop-color="#e8c97a"/>
+        <stop offset="60%" stop-color="#c9a84c"/>
+        <stop offset="100%" stop-color="#8a6520"/>
+      </radialGradient>
+    </defs>
+    <circle cx="90" cy="90" r="70" fill="url(#mg)" opacity="0.12"/>
+    <path d="M 90 25 A 65 65 0 1 1 90 155 A 45 65 0 1 0 90 25 Z" fill="url(#mg)" opacity="0.9"/>
+    <circle cx="90" cy="90" r="72" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+    <circle cx="140" cy="50" r="2" fill="#e8c97a" opacity="0.6"/>
+    <circle cx="155" cy="90" r="1.5" fill="#e8c97a" opacity="0.4"/>
+    <circle cx="130" cy="140" r="1.8" fill="#e8c97a" opacity="0.5"/>
+  </svg>
+  <p class="hero-tag">Talleres &middot; Arequipa &amp; Lima</p>
+  <h1 class="hero-title">Luna<br/><em>Menguante</em></h1>
+  <p class="hero-sub">Descubre los mensajes del cosmos. Talleres vivenciales de Tarot para conectar con tu esencia más profunda.</p>
+  <button class="hero-cta" onclick="document.getElementById('ciudad').scrollIntoView({behavior:'smooth'})">&#191;De qué ciudad eres?</button>
+</section>
+
+<section class="city-section" id="ciudad" style="padding-top:3rem;">
+  <div class="city-cards">
+    <div class="city-card" id="card-arequipa" onclick="selectCity('arequipa')">
+      <div class="city-card-icon">&#127755;</div>
+      <div class="city-card-name">Arequipa</div>
+    </div>
+    <div class="city-card" id="card-lima" onclick="selectCity('lima')">
+      <div class="city-card-icon">&#127754;</div>
+      <div class="city-card-name">Lima</div>
+    </div>
+  </div>
+</section>
+
+<div class="city-content" id="content-lima">
+
+  <div class="agenda-wrap">
+    <div class="agenda-titulo">
+      <p class="section-label">Lima · Mayo 2026</p>
+      <h2 class="section-title">¿Cuándo nos <em>vemos?</em></h2>
+    </div>
+    <div class="agenda-grid">
+
+      <div class="agenda-card">
+        <div class="agenda-card-header">
+          <div class="agenda-fecha-num">16</div>
+          <div class="agenda-fecha-info">
+            <span class="agenda-fecha-dia">Sábado</span>
+            <span class="agenda-fecha-mes">Mayo 2026</span>
+            <span class="agenda-lugar">📍 Casa Kintu · Jr. Océano Atlántico 309, Surco</span>
+          </div>
+        </div>
+        <div class="agenda-card-body">
+          <div class="agenda-taller-row">
+            <div class="agenda-taller-top">
+              <span class="agenda-hora">9:00am</span>
+              <span class="agenda-nombre">Carta Astral</span>
+              <span class="agenda-precio">S/150</span>
+            </div>
+            <div class="agenda-btns">
+              <button class="agenda-btn-info" onclick="abrirModalTaller('carta_astral_lima')">Ver más</button>
+              <button class="agenda-btn-inscribir" onclick="scrollToFormLima('carta_astral_lima')">Inscribirme</button>
+            </div>
+          </div>
+          <div class="agenda-taller-row">
+            <div class="agenda-taller-top">
+              <span class="agenda-hora">1:00pm</span>
+              <span class="agenda-nombre">Tu Primera Lectura de Tarot</span>
+              <span class="agenda-precio">S/150</span>
+            </div>
+            <div class="agenda-btns">
+              <button class="agenda-btn-info" onclick="abrirModalTaller('primera_lectura_lima')">Ver más</button>
+              <button class="agenda-btn-inscribir" onclick="scrollToFormLima('primera_lectura_lima')">Inscribirme</button>
+            </div>
+          </div>
+          <div class="agenda-taller-row">
+            <div class="agenda-taller-top">
+              <span class="agenda-hora">5:30pm</span>
+              <span class="agenda-nombre">Numerología</span>
+              <span class="agenda-precio">S/150</span>
+            </div>
+            <div class="agenda-btns">
+              <button class="agenda-btn-info" onclick="abrirModalTaller('numerologia_lima')">Ver más</button>
+              <button class="agenda-btn-inscribir" onclick="scrollToFormLima('numerologia_lima')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-header" style="background:#4a3060">
+          <div class="agenda-fecha-num" style="font-size:1.8rem">☕</div>
+          <div class="agenda-fecha-info">
+            <span class="agenda-fecha-dia">Domingo</span>
+            <span class="agenda-fecha-mes">17 de Mayo 2026</span>
+            <span class="agenda-lugar">📍 Lima · lugar confirmado al inscribirse</span>
+          </div>
+        </div>
+        <div class="agenda-card-body">
+          <div class="agenda-taller-row">
+            <div class="agenda-taller-top">
+              <span class="agenda-hora">Por coord.</span>
+              <span class="agenda-nombre">Cafecito con Adri</span>
+              <span class="agenda-precio">S/180</span>
+            </div>
+            <p class="agenda-cafecito-note">Reservas tu lugar y te escribimos por WhatsApp para coordinar el horario · 45 min por turno</p>
+            <div class="agenda-btns" style="margin-top:0.6rem">
+              <button class="agenda-btn-info" onclick="abrirModalTaller('cafecito_lima')">Ver más</button>
+              <button class="agenda-btn-inscribir" onclick="scrollToFormLima('cafecito_lima')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="agenda-divider">✦ ✦ ✦</div>
+  </div>
+
+  <div style="max-width:700px;margin:0 auto 2rem;padding:0 2rem">
+    <div style="background:linear-gradient(135deg,#6b2737,#4a1828);border-radius:10px;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;box-shadow:0 8px 24px rgba(107,39,55,0.25)">
+      <div style="flex:1;min-width:220px">
+        <p style="font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;color:#f0d080;margin-bottom:6px">🌙 Oferta especial Lima</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#fff;font-weight:700;line-height:1.2;margin-bottom:6px">Pack 3 Talleres · Sábado 16</h3>
+        <p style="font-family:'Jost',sans-serif;font-size:0.85rem;color:rgba(255,255,255,0.75);line-height:1.5">Carta Astral + Tu Primera Lectura + Numerología<br>Inscríbete en los 3 y obtén <strong style="color:#f0d080">S/ 30 de descuento</strong> en el total.</p>
+        <p style="font-family:'Jost',sans-serif;font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:6px">Precio normal: S/ 450 · <strong style="color:#fff">Precio pack: S/ 420</strong></p>
+      </div>
+      <div style="text-align:center">
+        <button onclick="abrirModalPack()" style="background:#f0d080;color:#3d2b1f;border:none;padding:0.9rem 1.8rem;font-family:'Jost',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;border-radius:6px;white-space:nowrap;transition:all 0.2s" onmouseover="this.style.background='#fff'" onmouseout="this.style.background='#f0d080'">Quiero el pack →</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="divider"><span>&#10022;</span></div>
+
+  <section class="registro" id="registro-lima" style="max-width:750px;margin:0 auto;padding:2rem 2rem 5rem">
+    <div class="registro-header" style="text-align:center;margin-bottom:3rem">
+      <p class="section-label">✦ Inscripción &middot; Lima</p>
+      <h2 class="section-title">Reserva tu <em>lugar</em></h2>
+    </div>
+    <div class="form-card">
+      <div id="successLima" class="success-msg">
+        <div class="icon">🌙</div>
+        <h3>¡Estás dentro!</h3>
+        <p>Recibimos tu inscripción. &#128231; <strong style="color:var(--gold)">Revisa tu correo</strong> — en unos minutos te llegará la confirmación. El saldo lo traes el día del evento.</p>
+        <a id="lima-mp-pay-btn" href="#" target="_blank" style="display:none;margin-top:1.2rem;padding:0.8rem 2rem;background:#009ee3;color:white;text-decoration:none;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif">&#128179; Completar pago con tarjeta &rarr;</a>
+        <br/>
+        <button onclick="document.getElementById('successLima').style.display='none';document.getElementById('formLima').style.display='block'" class="success-close-x" title="Cerrar">✕</button>
+        <button onclick="document.getElementById('successLima').style.display='none';document.getElementById('formLima').style.display='block'" class="success-btn-gracias">Muchas gracias 🌙</button>
+      </div>
+      <form id="formLima" onsubmit="handleSubmitLima(event)">
+        <div class="form-group full">
+          <label>Taller <span class="required-star">*</span></label>
+          <select id="lima-taller" required onchange="actualizarMontoLima()">
+            <option value="">— Selecciona un taller —</option>
+            <option value="pack_3_lima" data-precio="420">⭐ PACK 3 Talleres (16 mayo) — S/420 · Ahorrás S/30</option>
+            <option value="carta_astral_lima" data-precio="150">Carta Astral &middot; Sáb 16 may 9:00am &middot; S/150</option>
+            <option value="primera_lectura_lima" data-precio="150">Tu Primera Lectura de Tarot &middot; Sáb 16 may 1:00pm &middot; S/150</option>
+            <option value="numerologia_lima" data-precio="150">Numerología &middot; Sáb 16 may 5:30pm &middot; S/150</option>
+            <option value="cafecito_lima" data-precio="180">Cafecito con Adri &middot; Dom 17 may &middot; S/180</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre <span class="required-star">*</span></label>
+            <input type="text" id="lima-nombre" placeholder="Tu nombre" required/>
+          </div>
+          <div class="form-group">
+            <label>Apellido <span class="required-star">*</span></label>
+            <input type="text" id="lima-apellido" placeholder="Tu apellido" required/>
+          </div>
+        </div>
+        <div id="lima-birth-fields" style="display:none">
+          <div class="form-group full">
+            <label>Fecha de nacimiento <span class="required-star">*</span></label>
+            <input type="date" id="lima-nacimiento"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Hora de nacimiento <span style="color:var(--muted);font-size:0.65rem">(si la sabes)</span></label>
+              <input type="time" id="lima-hora-nac"/>
+            </div>
+            <div class="form-group">
+              <label>Lugar de nacimiento <span class="required-star">*</span></label>
+              <input type="text" id="lima-lugar-nac" placeholder="Ciudad, País"/>
+            </div>
+          </div>
+        </div>
+
+        <div id="lima-cafecito-notice" style="display:none;margin-bottom:1.2rem">
+          <div style="background:#fff8ee;border:1px solid rgba(180,140,80,0.3);padding:1rem 1.2rem;border-left:3px solid #6b2737">
+            <p style="font-size:0.88rem;color:#3d2b1f;font-weight:600;margin-bottom:4px">🌙 Sobre tu horario</p>
+            <p style="font-size:0.84rem;color:#5a3a28;line-height:1.6">Reserva tu lugar acá y <strong>te escribimos por WhatsApp</strong> para coordinar el horario del <strong>domingo 17 de mayo</strong>.</p>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>WhatsApp <span class="required-star">*</span></label>
+            <input type="tel" id="lima-whatsapp" placeholder="987654321" required/>
+          </div>
+          <div class="form-group">
+            <label>Correo electrónico <span class="required-star">*</span></label>
+            <input type="email" id="lima-email" placeholder="tu@correo.com" required/>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>Monto que abonas <span class="required-star">*</span></label>
+          <div class="monto-opciones">
+            <button type="button" class="monto-opcion" id="lima-btn50" onclick="seleccionarMontoLima('50')">50% de reserva</button>
+            <button type="button" class="monto-opcion" id="lima-btn100" onclick="seleccionarMontoLima('100')">Monto total</button>
+          </div>
+          <p class="form-note" id="lima-monto-hint"></p>
+          <input type="hidden" id="lima-monto"/>
+        </div>
+        <div class="form-group full">
+          <label>Método de pago <span class="required-star">*</span></label>
+          <div class="monto-opciones">
+            <button type="button" class="monto-opcion active" id="lima-btn-yape" onclick="seleccionarPagoLima('yape')">&#128241; Yape</button>
+            <button type="button" class="monto-opcion" id="lima-btn-mp" onclick="seleccionarPagoLima('mercadopago')">&#128179; Tarjeta / MP</button>
+          </div>
+          <input type="hidden" id="lima-metodo-pago" value="yape"/>
+        </div>
+        <div id="lima-yape-section">
+          <div class="yape-box" style="margin-bottom:1rem">
+            <p class="yape-box-title">Yapea tu abono al:</p>
+            <p class="yape-num">986 728 811</p>
+            <p class="yape-name">Camila Salazar Flores</p>
+          </div>
+          <div class="form-group full">
+            <label>Foto del comprobante Yape <span class="required-star">*</span></label>
+            <div class="upload-area" id="uploadAreaLima">
+              <input type="file" id="lima-comprobante" accept="image/*"/>
+              <div class="upload-icon">&#128247;</div>
+              <div class="upload-text"><strong>Toca aquí o arrastra la foto</strong><br/>JPG, PNG &middot; Máx 5 MB</div>
+            </div>
+          </div>
+        </div>
+        <div id="lima-mp-section" style="display:none">
+          <div class="yape-box" style="border-color:rgba(0,158,227,0.3);background:#f0f8ff;text-align:center">
+            <p class="yape-box-title" style="color:#0077cc">&#128179; Pago con tarjeta via Mercado Pago</p>
+            <p style="font-size:0.8rem;color:var(--gold);font-style:italic;margin:0.4rem 0 1rem">&#9888; El pago con tarjeta es por el monto total · Se aplica un recargo fijo de S/ 7.</p>
+            <a id="lima-mp-direct-link" href="#" target="_blank" style="display:none;padding:0.8rem 2rem;background:#009ee3;color:#fff;text-decoration:none;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif;font-weight:600;border-radius:2px">&#128179; Ir a pagar con tarjeta &rarr;</a>
+            <p style="font-size:0.75rem;color:#8a7060;margin-top:0.8rem">Después de pagar, completa el formulario y haz clic en confirmar.</p>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>Comentarios o preguntas</label>
+          <textarea id="lima-comentarios" rows="3" placeholder="&#191;Algo que quieras contarnos?"></textarea>
+        </div>
+        <button type="submit" class="btn-submit" id="btnSubmitLima">&#9789; Confirmar inscripción</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<div class="city-content" id="content-arequipa">
+
+  <div class="agenda-wrap">
+    <div class="agenda-titulo">
+      <p class="section-label">Arequipa · Abril 2026</p>
+      <h2 class="section-title">¿Cuándo nos <em>vemos?</em></h2>
+    </div>
+    <div class="agenda-grid">
+
+      <div class="agenda-card">
+        <div class="agenda-card-header">
+          <div class="agenda-fecha-num">18</div>
+          <div class="agenda-fecha-info">
+            <span class="agenda-fecha-dia">Sábado</span>
+            <span class="agenda-fecha-mes">Abril 2026</span>
+            <span class="agenda-lugar">📍 7 Vidas Taproom · C. Moral 305</span>
+          </div>
+        </div>
+        <div class="agenda-card-body">
+          <div class="agenda-taller-row">
+            <div class="agenda-taller-top">
+              <span class="agenda-hora">9:00am</span>
+              <span class="agenda-nombre">Carta Astral</span>
+              <span class="agenda-precio">S/120</span>
+            </div>
+            <div class="agenda-btns">
+              <button class="agenda-btn-info" onclick="abrirModalTaller('carta_astral_aqp')">Ver más</button>
+              <button class="agenda-btn-inscribir" onclick="scrollToFormAqp('carta_astral_aqp')">Inscribirme</button>
+            </div>
+          </div>
+          <div class="agenda-taller-row">
+            <div class="agenda-taller-top">
+              <span class="agenda-hora">1:00pm</span>
+              <span class="agenda-nombre">Tu Primera Lectura de Tarot</span>
+              <span class="agenda-precio">S/120</span>
+            </div>
+            <div class="agenda-btns">
+              <button class="agenda-btn-info" onclick="abrirModalTaller('primera_lectura_aqp')">Ver más</button>
+              <button class="agenda-btn-inscribir" onclick="scrollToFormAqp('primera_lectura_aqp')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-header">
+          <div class="agenda-fecha-num">25</div>
+          <div class="agenda-fecha-info">
+            <span class="agenda-fecha-dia">Sábado</span>
+            <span class="agenda-fecha-mes">Abril 2026</span>
+            <span class="agenda-lugar">📍 7 Vidas Taproom · C. Moral 305</span>
+          </div>
+        </div>
+        <div class="agenda-card-body">
+          <div class="agenda-taller-row">
+            <div class="agenda-taller-top">
+              <span class="agenda-hora">9:00am</span>
+              <span class="agenda-nombre">Numerología</span>
+              <span class="agenda-precio">S/120</span>
+            </div>
+            <div class="agenda-btns">
+              <button class="agenda-btn-info" onclick="abrirModalTaller('numerologia_aqp')">Ver más</button>
+              <button class="agenda-btn-inscribir" onclick="scrollToFormAqp('numerologia_aqp')">Inscribirme</button>
+            </div>
+          </div>
+          <div class="agenda-taller-row">
+            <div class="agenda-taller-top">
+              <span class="agenda-hora">2:00pm</span>
+              <span class="agenda-nombre">Arcanos Mayores</span>
+              <span class="agenda-precio">S/120</span>
+            </div>
+            <div class="agenda-btns">
+              <button class="agenda-btn-info" onclick="abrirModalTaller('arcanos_mayores_aqp')">Ver más</button>
+              <button class="agenda-btn-inscribir" onclick="scrollToFormAqp('arcanos_mayores_aqp')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-header" style="background:#4a3060">
+          <div class="agenda-fecha-num" style="font-size:1.8rem">☕</div>
+          <div class="agenda-fecha-info">
+            <span class="agenda-fecha-dia">Domingos de abril</span>
+            <span class="agenda-fecha-mes">6 · 13 · 20 · 27</span>
+            <span class="agenda-lugar">📍 Arequipa · se confirma al inscribirse</span>
+          </div>
+        </div>
+        <div class="agenda-card-body">
+          <div class="agenda-taller-row">
+            <div class="agenda-taller-top">
+              <span class="agenda-hora">4–7pm</span>
+              <span class="agenda-nombre">Cafecito con Adri</span>
+              <span class="agenda-precio">S/180</span>
+            </div>
+            <p class="agenda-cafecito-note">Horario coordinado por WhatsApp · 45 min por turno · cupos limitados</p>
+            <div class="agenda-btns" style="margin-top:0.6rem">
+              <button class="agenda-btn-info" onclick="abrirModalTaller('cafecito_aqp')">Ver más</button>
+              <button class="agenda-btn-inscribir" onclick="scrollToFormAqp('cafecito_aqp')">Inscribirme</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="agenda-divider">✦ ✦ ✦</div>
+  </div>
+
+
+  <div class="divider"><span>&#10022;</span></div>
+
+  <section class="registro" id="registro-aqp">
+    <div class="registro-header">
+      <p class="section-label">✦ Inscripción &middot; Arequipa</p>
+      <h2 class="section-title">Reserva tu <em>lugar</em></h2>
+    </div>
+    <div class="form-card">
+      <div id="successAqp" class="success-msg">
+        <div class="icon">🌙</div>
+        <h3>¡Estás dentro!</h3>
+        <p>Recibimos tu inscripción. &#128231; <strong style="color:var(--gold-light)">Revisa tu correo</strong> — en unos minutos te llegará la confirmación con todos los detalles del taller. Si no lo ves, revisa tu carpeta de spam. El saldo restante lo traes el día del evento.</p>
+        <a id="aqp-mp-pay-btn" href="#" target="_blank" style="display:none;margin-top:1.2rem;padding:0.8rem 2rem;background:#009ee3;color:white;text-decoration:none;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif">&#128179; Completar pago con tarjeta &rarr;</a>
+        <br/>
+        <button onclick="resetFormAqp()" class="success-close-x" title="Cerrar">✕</button>
+        <button onclick="resetFormAqp()" class="success-btn-gracias">Muchas gracias 🌙</button>
+      </div>
+
+      <form id="formAqp" onsubmit="handleSubmitAqp(event)">
+
+        <div class="form-group full">
+          <label>Taller <span class="required-star">*</span></label>
+          <select id="aqp-taller" required onchange="actualizarMonto()">
+            <option value="">— Selecciona un taller —</option>
+            <option value="carta_astral_aqp" data-precio="120">Carta Astral &middot; Sáb 18 abr 9:00am &middot; S/120</option>
+            <option value="primera_lectura_aqp" data-precio="120">Tu Primera Lectura &middot; Sáb 18 abr 1:00pm &middot; S/120</option>
+            <option value="numerologia_aqp" data-precio="120">Numerología &middot; Sáb 25 abr 9:00am &middot; S/120</option>
+            <option value="arcanos_mayores_aqp" data-precio="120">Arcanos Mayores &middot; Sáb 25 abr 2:00pm &middot; S/120</option>
+            <option value="cafecito_aqp" data-precio="180">Cafecito con Adri &middot; Domingos de abril &middot; S/180</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label>Cantidad de cupos <span class="required-star">*</span></label>
+          <div class="cupos-selector">
+            <button type="button" class="cupo-btn active" onclick="setCupos(1)">1 persona</button>
+            <button type="button" class="cupo-btn" onclick="setCupos(2)">2 personas</button>
+            <button type="button" class="cupo-btn" onclick="setCupos(3)">3 personas</button>
+            <button type="button" class="cupo-btn" onclick="setCupos(4)">4 personas</button>
+          </div>
+          <p class="form-note" id="cupos-hint"></p>
+          <input type="hidden" id="aqp-cupos" value="1"/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre <span class="required-star">*</span></label>
+            <input type="text" id="aqp-nombre" placeholder="Tu nombre" required/>
+          </div>
+          <div class="form-group">
+            <label>Apellido <span class="required-star">*</span></label>
+            <input type="text" id="aqp-apellido" placeholder="Tu apellido" required/>
+          </div>
+        </div>
+
+        <div id="aqp-birth-fields" style="display:none">
+          <div class="form-group full">
+            <label>Fecha de nacimiento <span class="required-star">*</span></label>
+            <input type="date" id="aqp-cumple"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Hora de nacimiento <span style="color:var(--muted);font-size:0.65rem">(si la sabes)</span></label>
+              <input type="time" id="aqp-hora-nac"/>
+            </div>
+            <div class="form-group">
+              <label>Lugar de nacimiento <span class="required-star">*</span></label>
+              <input type="text" id="aqp-lugar-nac" placeholder="Ciudad, País"/>
+            </div>
+          </div>
+        </div>
+
+        <div id="aqp-cafecito-notice" style="display:none;margin-bottom:1.2rem">
+          <div style="background:#fff8ee;border:1px solid rgba(180,140,80,0.3);padding:1rem 1.2rem;border-left:3px solid #6b2737">
+            <p style="font-size:0.88rem;color:#3d2b1f;font-weight:600;margin-bottom:4px">🌙 Sobre tu horario</p>
+            <p style="font-size:0.84rem;color:#5a3a28;line-height:1.6">Reserva tu lugar acá y <strong>te escribimos por WhatsApp</strong> para coordinar el horario. Domingos disponibles en abril: 6, 13, 20 y 27 · 4:00 p.m. – 7:00 p.m.</p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>WhatsApp <span class="required-star">*</span></label>
+            <input type="tel" id="aqp-whatsapp" placeholder="987654321" required/>
+          </div>
+          <div class="form-group">
+            <label>Correo electrónico <span class="required-star">*</span></label>
+            <input type="email" id="aqp-email" placeholder="tu@correo.com" required/>
+          </div>
+        </div>
+
+        <!-- DATOS PERSONAS ADICIONALES -->
+        <div id="personas-adicionales" style="display:none">
+          <div style="border:1px solid rgba(201,168,76,0.2);padding:1.5rem;margin-bottom:1.2rem;background:rgba(201,168,76,0.04)">
+            <p style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">Datos de las personas adicionales</p>
+            <div id="personas-fields"></div>
+          </div>
+        </div>
+
+        <!-- MONTO -->
+        <div class="form-group full">
+          <label>Monto que abonas <span class="required-star">*</span></label>
+          <div class="monto-opciones">
+            <button type="button" class="monto-opcion" id="btn50" onclick="seleccionarMonto('50')">50% de reserva</button>
+            <button type="button" class="monto-opcion" id="btn100" onclick="seleccionarMonto('100')">Monto total</button>
+          </div>
+          <input type="hidden" id="aqp-monto"/>
+          <p class="form-note" id="monto-hint"></p>
+        </div>
+
+        <div class="form-group full">
+          <div class="yape-box">
+            <p class="yape-box-title">Yapea tu abono al:</p>
+            <p class="yape-num">986 728 811</p>
+            <p class="yape-name">Camila Salazar Flores</p>
+          </div>
+          <div class="form-group full" style="margin-bottom:1rem">
+            <label>Método de pago <span class="required-star">*</span></label>
+            <div class="monto-opciones">
+              <button type="button" class="monto-opcion active" id="aqp-btn-yape" onclick="seleccionarPagoAqp('yape')">&#128241; Yape</button>
+              <button type="button" class="monto-opcion" id="aqp-btn-mp" onclick="seleccionarPagoAqp('mercadopago')">&#128179; Tarjeta / MP</button>
+            </div>
+            <input type="hidden" id="aqp-metodo-pago" value="yape"/>
+          </div>
+          <div id="aqp-mp-notice" style="display:none;margin-bottom:1rem">
+            <div class="yape-box" style="border-color:rgba(0,158,227,0.3);background:#f0f8ff;text-align:center">
+              <p class="yape-box-title" style="color:#0077cc">&#128179; Pago con tarjeta via Mercado Pago</p>
+              <p style="font-size:0.8rem;color:var(--gold);font-style:italic;margin:0.4rem 0 1rem">&#9888; El pago con tarjeta es por el monto total · Se aplica un recargo fijo de S/ 7.</p>
+              <a id="aqp-mp-direct-link" href="#" target="_blank" style="display:none;padding:0.8rem 2rem;background:#009ee3;color:#fff;text-decoration:none;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif;font-weight:600;border-radius:2px">&#128179; Ir a pagar con tarjeta &rarr;</a>
+              <p style="font-size:0.75rem;color:#8a7060;margin-top:0.8rem">Después de pagar, completa el formulario y haz clic en confirmar.</p>
+            </div>
+          </div>
+          <div id="aqp-yape-section">
+          <label>Foto del comprobante Yape <span class="required-star">*</span></label>
+          <div class="upload-area" id="uploadAreaAqp">
+            <input type="file" id="aqp-comprobante" accept="image/*" onchange="previewImage('aqp-comprobante','previewImgAqp','previewWrapAqp')"/>
+            <div class="upload-icon" id="uploadIconAqp">&#128247;</div>
+            <div class="upload-text" id="uploadTextAqp"><strong>Toca aquí o arrastra la foto</strong><br/>JPG, PNG &middot; Máx 5 MB</div>
+          </div>
+          </div><!-- /aqp-yape-section -->
+          <div class="upload-preview" id="previewWrapAqp">
+            <img id="previewImgAqp" src="" alt="Comprobante"/>
+            <br/>
+            <button type="button" class="remove-img" onclick="removeImage()">&#x2715; Quitar imagen</button>
+          </div>
+        </div>
+
+        <div class="form-group full">
+          <label>Comentarios o preguntas</label>
+          <textarea id="aqp-comentarios" rows="3" placeholder="&#191;Algo que quieras contarnos?"></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmitAqp">&#9789; Confirmar inscripción</button>
+      </form>
+    </div>
+  </section>
+
+</div>
+
+</div>
+
+<footer>
+  <p>&#9789; &nbsp;<strong>Luna Menguante</strong> &nbsp;&middot;&nbsp; Arequipa &amp; Lima &nbsp;&middot;&nbsp; Tarot &middot; Carta Astral &middot; Numerología</p>
+  <button class="footer-admin-btn" onclick="openAdmin()">&#9881;</button>
+</footer>
+
+<div class="admin-section" id="adminSection">
+  <div class="admin-login" id="adminLogin">
+    <h3>Hola &#9789;</h3>
+    <p>Este espacio es interno para el equipo de Luna Menguante.</p>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <div class="pass-wrap">
+        <input type="password" id="adminPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPass()"/>
+        <button class="pass-eye" type="button" onclick="togglePass()" id="passEyeBtn" title="Ver contraseña">👁️</button>
+      </div>
+    </div>
+    <button class="btn-login" onclick="checkPass()">Entrar &#9789;</button>
+    <p class="login-error" id="loginError">Contraseña incorrecta &#x2715;</p>
+  </div>
+
+  <div class="admin-dashboard" id="adminDashboard">
+    <div class="admin-header">
+      <h2 class="admin-title">Base de inscritas &#10022;</h2>
+      <div class="admin-actions">
+        <button class="btn-export" onclick="exportCSV()">&#8595; Exportar CSV</button>
+        <button class="btn-refresh" onclick="renderStats();renderTable(currentFilter)">&#8635; Actualizar</button>
+        <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+      </div>
+    </div>
+    <div class="admin-stats" id="adminStats"></div>
+    <div class="admin-tabs">
+      <button class="tab-btn active" onclick="filterTable('todos',this)">Todas</button>
+      <button class="tab-btn" onclick="filterTable('carta_astral_aqp',this)">Carta Astral AQP</button>
+      <button class="tab-btn" onclick="filterTable('primera_lectura_aqp',this)">1ra Lectura AQP</button>
+      <button class="tab-btn" onclick="filterTable('numerologia_aqp',this)">Numerología AQP</button>
+      <button class="tab-btn" onclick="filterTable('arcanos_mayores_aqp',this)">Arcanos AQP</button>
+      <button class="tab-btn" onclick="filterTable('cafecito_aqp',this)">Cafecito AQP</button>
+      <button class="tab-btn" onclick="filterTable('carta_astral_lima',this)">Carta Astral Lima</button>
+      <button class="tab-btn" onclick="filterTable('primera_lectura_lima',this)">1ra Lectura Lima</button>
+      <button class="tab-btn" onclick="filterTable('numerologia_lima',this)">Numerología Lima</button>
+      <button class="tab-btn" onclick="filterTable('cafecito_lima',this)">Cafecito Lima</button>
+    </div>
+    <div class="registros-table-wrap">
+      <div class="admin-loading" id="adminLoading" style="display:none">Cargando inscritas... &#9789;</div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Nombre</th><th>Cumpleaños</th><th>WhatsApp</th><th>Email</th><th>Taller</th><th>Cupos</th><th>Monto</th><th>Comprobante</th><th>Fecha</th><th>Comentarios</th>
+          </tr>
+        </thead>
+        <tbody id="registrosBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none">Aún no hay inscritas &#9789;</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════
+const SUPABASE_URL = 'https://cvwyphhipvxjlusiyhrt.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2d3lwaGhpcHZ4amx1c2l5aHJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4ODQwMjksImV4cCI6MjA4OTQ2MDAyOX0.8BKz6cNDRFdmMu3aaLCbLwAgRQGCOHik-ay4g3HB-ow';
+const EMAILJS_SERVICE = 'service_ljcwzmm';
+const EMAILJS_TEMPLATE = 'template_5pa3d3n';
+const EMAILJS_KEY = 'xMeeOKITUyCRnih-h';
+
+const WA_LINKS = {};
+const MP_LINKS = {
+  carta_astral_aqp:     'https://mpago.la/2br34eo',
+  primera_lectura_aqp:  'https://mpago.la/2br34eo',
+  numerologia_aqp:      'https://mpago.la/2br34eo',
+  arcanos_mayores_aqp:  'https://mpago.la/2br34eo',
+  carta_astral_lima:    'https://mpago.la/2gwPG4n',
+  primera_lectura_lima: 'https://mpago.la/2gwPG4n',
+  numerologia_lima:     'https://mpago.la/2gwPG4n',
+  cafecito_aqp:         'https://mpago.la/2KNR7jH',
+  cafecito_lima:        'https://mpago.la/2KNR7jH',
+  pack_3_lima:          'https://mpago.la/2gwPG4n'
+};
+
+const PRECIOS = {
+  pack_3_lima: 420,
+  carta_astral_aqp: 120, primera_lectura_aqp: 120,
+  numerologia_aqp: 120, arcanos_mayores_aqp: 120, cafecito_aqp: 180,
+  carta_astral_lima: 150, primera_lectura_lima: 150,
+  numerologia_lima: 150, cafecito_lima: 180
+};
+const NOMBRES_TALLER = {
+  carta_astral_aqp: 'Carta Astral · Sáb 18 abril · 9:00am · 7 Vidas Taproom AQP',
+  primera_lectura_aqp: 'Tu Primera Lectura · Sáb 18 abril · 1:00pm · 7 Vidas Taproom AQP',
+  numerologia_aqp: 'Numerología · Sáb 25 abril · 9:00am · 7 Vidas Taproom AQP',
+  arcanos_mayores_aqp: 'Arcanos Mayores · Sáb 25 abril · 2:00pm · 7 Vidas Taproom AQP',
+  cafecito_aqp: 'Cafecito con Adri · Arequipa · Mié/Jue/Dom',
+  carta_astral_lima: 'Carta Astral · Sáb 16 mayo · 9:00am · Casa Kintu, Surco',
+  primera_lectura_lima: 'Tu Primera Lectura · Sáb 16 mayo · 1:00pm · Casa Kintu, Surco',
+  numerologia_lima: 'Numerología · Sáb 16 mayo · 5:30pm · Casa Kintu, Surco',
+  cafecito_lima: 'Cafecito con Adri · Lima · Dom 17 mayo',
+  pack_3_lima: 'Pack 3 Talleres Lima · Sáb 16 mayo · Carta Astral + Tu Primera Lectura + Numerología'
+};
+
+emailjs.init(EMAILJS_KEY);
+
+// ═══════════════════════════════════════
+// SUPABASE
+// ═══════════════════════════════════════
+async function sbInsert(data) {
+  var res = await fetch(SUPABASE_URL + '/rest/v1/registros', {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal' },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) {
+    var errText = await res.text();
+    console.error('Supabase error:', errText);
+    throw new Error('Error Supabase (' + res.status + '): ' + errText);
+  }
+  return true;
+}
+async function sbSelect(filter) {
+  var url = SUPABASE_URL + '/rest/v1/registros?order=created_at.asc';
+  if (filter && filter !== 'todos') url += '&taller=eq.' + filter;
+  var res = await fetch(url, { headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY} });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+// ═══════════════════════════════════════
+// EMAIL
+// ═══════════════════════════════════════
+function buildEmailHTML(nombre, taller, monto, waLink, personas) {
+  personas = personas || [];
+  var nombreTaller = NOMBRES_TALLER[taller] || taller;
+
+  // Sección personas adicionales
+  var personasHTML = '';
+  if (personas.length > 0) {
+    var lista = personas.map(function(p, i) {
+      return '<p style="margin:4px 0;font-size:14px;color:#3d2314">&#128100; <strong>Persona '+(i+2)+':</strong> '+(p.nombre||'—')+(p.whatsapp?' · '+p.whatsapp:'')+'</p>';
+    }).join('');
+    personasHTML = '<div style="background:#fff8ee;border:1px solid #e0c898;padding:16px 20px;margin:12px 0 0">'
+      + '<p style="color:#c9a84c;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 8px">Personas adicionales</p>'
+      + lista + '</div>';
+  }
+
+  // Mensaje WhatsApp para compartir
+  var waCompartirHTML = '';
+  if (personas.length > 0 && waLink) {
+    var nombres = personas.map(function(p){ return p.nombre || 'tu acompañante'; }).join(', ');
+    waCompartirHTML = '<p style="font-size:13px;color:#5a3a28;line-height:1.7;background:#f0fdf4;border-left:3px solid #25D366;padding:12px 16px;margin:16px 0">'
+      + '&#128172; Recuerda compartir el link del grupo de WhatsApp con <strong>'+nombres+'</strong> para que también reciban la información del taller.'
+      + '</p>';
+  }
+
+  var waBtn = waLink ? '<div style="text-align:center;margin:28px 0"><a href="'+waLink+'" style="display:inline-block;background:#25D366;color:#fff;padding:14px 32px;text-decoration:none;font-family:Georgia,serif;font-size:15px;border-radius:4px;font-weight:bold">&#128172; Unirme al grupo de WhatsApp</a></div>' : '';
+
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"/></head><body style="margin:0;padding:0;background:#f0e9df;font-family:Georgia,serif">'
+    + '<div style="max-width:580px;margin:0 auto;background:#faf5ee;border:1px solid #e0d0b8">'
+    + '<div style="padding:32px;text-align:center;background:#1a120b;border-bottom:2px solid #c9a84c">'
+    + '<p style="color:#c9a84c;font-size:11px;letter-spacing:4px;text-transform:uppercase;margin:0 0 6px">Luna Menguante</p>'
+    + '<h1 style="color:#e8c97a;font-size:30px;font-weight:300;margin:0">&#9789; &#161;Estás dentro!</h1>'
+    + '</div>'
+    + '<div style="padding:32px 36px;background:#faf5ee">'
+    + '<p style="font-size:16px;color:#3d2314">Hola <strong>'+nombre+'</strong>, &#128522;</p>'
+    + '<p style="font-size:15px;line-height:1.8;color:#5a3a28">Recibimos tu inscripción y tu comprobante de pago. Estamos muy felices de tenerte con nosotras &#10024;</p>'
+    + '<p style="font-size:13px;line-height:1.7;color:#8a7060;background:#f5ece0;border-left:3px solid #c9a84c;padding:12px 16px;margin:0 0 20px">&#128269; Estamos revisando la validación de tu pago. En caso de necesitar algo adicional nos comunicaremos contigo por WhatsApp.</p>'
+    + '<div style="background:#fff8ee;border:1px solid #e0c898;padding:20px 24px;margin:0 0 8px">'
+    + '<p style="color:#c9a84c;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px">Tu reserva</p>'
+    + '<p style="margin:6px 0;font-size:14px;color:#3d2314">&#128302; <strong>Taller:</strong> '+nombreTaller+'</p>'
+    + '<p style="margin:6px 0;font-size:14px;color:#3d2314">&#128205; <strong>Lugar:</strong> Satiba &middot; San Vicente 109 B, Yanahuara, Arequipa</p>'
+    + '<p style="margin:6px 0;font-size:14px;color:#3d2314">&#128100; <strong>Cupos:</strong> '+( personas.length + 1 )+'</p>'
+    + '<p style="margin:6px 0;font-size:14px;color:#3d2314">&#128181; <strong>Monto abonado:</strong> S/ '+monto+'</p>'
+    + '</div>'
+    + personasHTML
+    + waBtn
+    + waCompartirHTML
+    + '<h2 style="color:#3d2314;font-size:17px;font-weight:600;margin:28px 0 14px;border-top:1px solid #e0d0b8;padding-top:24px">A tener en cuenta &#10022;</h2>'
+    + '<p style="font-size:13px;color:#5a3a28;line-height:1.8;margin:0 0 8px">&#9899; Los lugares son exactos. No es posible asistir con personas adicionales que no hayan hecho reserva.</p>'
+    + '<p style="font-size:13px;color:#5a3a28;line-height:1.8;margin:0 0 8px">&#9899; No está permitido asistir con niños o bebés, ya que es un espacio pensado para adultos.</p>'
+    + '<p style="font-size:13px;color:#5a3a28;line-height:1.8;margin:0 0 8px">&#9899; No realizamos devoluciones, pero tu cupo <strong>sí es transferible</strong>. Avísanos con al menos 1 día de anticipación con los datos de quien asistirá en tu lugar.</p>'
+    + '<p style="font-size:13px;color:#5a3a28;line-height:1.8;margin:0 0 8px">&#9899; Si tienes saldo pendiente, indícanos si cancelarás en efectivo para llevar el cambio.</p>'
+    + '<p style="font-size:13px;color:#5a3a28;line-height:1.8;margin:0 0 8px">&#9899; No necesitas conocimientos previos ni materiales especiales. Todo lo necesario estará incluido. Si deseas, puedes traer un cuaderno para anotaciones.</p>'
+    + '<p style="font-size:13px;color:#5a3a28;line-height:1.8;margin:0 0 20px">&#9899; No es una lectura personalizada, sino un taller donde aprenderás a realizar tu propia lectura con nuestra guía. &#127769;</p>'
+    + '<p style="font-size:13px;font-style:italic;color:#c9a84c;text-align:center;border-top:1px solid #e0d0b8;padding-top:16px">Cada taller es una experiencia distinta; lo que se comparte en el espacio, se queda en el espacio &#10024;</p>'
+    + '</div>'
+    + '<div style="padding:20px;text-align:center;background:#1a120b;border-top:2px solid #c9a84c">'
+    + '<p style="color:#e8c97a;font-size:13px;margin:0"><strong>Luna Menguante</strong></p>'
+    + '<p style="color:#8a7060;font-size:11px;margin:4px 0 0">&#64;lunamenguante_peru</p>'
+    + '</div>'
+    + '</div>\n<\/script>\n\n</body></html>';
+}
+
+async function enviarCorreo(nombre, email, taller, monto, personas) {
+  personas = personas || [];
+  var waLink = WA_LINKS[taller] || '';
+  var htmlContent = buildEmailHTML(nombre, taller, monto, waLink, personas);
+  await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+    to_email: email,
+    message: htmlContent
+  });
+}
+
+// ═══════════════════════════════════════
+// MONTO
+// ═══════════════════════════════════════
+var montoSeleccion = '';
+
+var cuposSeleccionados = 1;
+
+function setCupos(n) {
+  cuposSeleccionados = n;
+  document.getElementById('aqp-cupos').value = n;
+  document.querySelectorAll('.cupo-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.cupo-btn')[n-1].classList.add('active');
+  var sel = document.getElementById('aqp-taller');
+  var precio = sel.value ? PRECIOS[sel.value] : 0;
+  var total = precio * n;
+  if (precio) {
+    document.getElementById('cupos-hint').textContent = n + ' cupo' + (n>1?'s':'') + ' × S/ ' + precio + ' = S/ ' + total + ' en total';
+    document.getElementById('btn50').textContent = '50% de reserva (S/ ' + (total * 0.5) + ')';
+    document.getElementById('btn100').textContent = 'Monto total (S/ ' + total + ')';
+  }
+  // Mostrar campos de personas adicionales
+  var adicionalesWrap = document.getElementById('personas-adicionales');
+  var fields = document.getElementById('personas-fields');
+  if (n > 1) {
+    adicionalesWrap.style.display = 'block';
+    var html = '';
+    for (var i = 2; i <= n; i++) {
+      html += '<div style="margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid rgba(201,168,76,0.15)">'
+        + '<p style="font-size:0.75rem;color:var(--gold-light);margin-bottom:0.6rem">Persona ' + i + '</p>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem">'
+        + '<input type="text" id="persona-'+i+'-nombre" placeholder="Nombre completo" style="background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);color:var(--cream);padding:0.7rem 0.9rem;font-family:Jost,sans-serif;font-size:0.85rem;outline:none;width:100%"/>'
+        + '<input type="tel" id="persona-'+i+'-wa" placeholder="WhatsApp" style="background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);color:var(--cream);padding:0.7rem 0.9rem;font-family:Jost,sans-serif;font-size:0.85rem;outline:none;width:100%"/>'
+        + '</div></div>';
+    }
+    fields.innerHTML = html;
+  } else {
+    adicionalesWrap.style.display = 'none';
+    fields.innerHTML = '';
+  }
+  if (montoSeleccion) seleccionarMonto(montoSeleccion);
+}
+
+function getPersonasAdicionales() {
+  var personas = [];
+  for (var i = 2; i <= cuposSeleccionados; i++) {
+    var nombre = document.getElementById('persona-'+i+'-nombre');
+    var wa = document.getElementById('persona-'+i+'-wa');
+    if (nombre) personas.push({ nombre: nombre.value.trim(), whatsapp: wa.value.trim() });
+  }
+  return personas;
+}
+
+function actualizarMonto() {
+  montoSeleccion = '';
+  document.getElementById('aqp-monto').value = '';
+  document.getElementById('monto-hint').textContent = '';
+  ['btn50','btn100'].forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
+  var sel = document.getElementById('aqp-taller');
+  var precio = sel.value ? PRECIOS[sel.value] : 0;
+  var n = cuposSeleccionados;
+  if (precio) {
+    var total = precio * n;
+    var mitad = Math.ceil(total * 0.5);
+    document.getElementById('btn50').textContent = '50% · Abonas S/ ' + mitad;
+    document.getElementById('btn100').textContent = 'Total · Pagas S/ ' + total;
+    document.getElementById('cupos-hint').textContent = n + ' cupo' + (n>1?'s':'') + ' × S/ ' + precio + ' = S/ ' + total;
+  } else {
+    document.getElementById('btn50').textContent = '50% de reserva';
+    document.getElementById('btn100').textContent = 'Monto total';
+    document.getElementById('cupos-hint').textContent = '';
+  }
+  var birthDiv = document.getElementById('aqp-birth-fields');
+  if (birthDiv) birthDiv.style.display = (sel.value === 'carta_astral_aqp') ? 'block' : 'none';
+  var cafeDiv = document.getElementById('aqp-cafecito-notice');
+  if (cafeDiv) cafeDiv.style.display = (sel.value === 'cafecito_aqp') ? 'block' : 'none';
+  if (montoSeleccion) seleccionarMonto(montoSeleccion);
+}
+
+function seleccionarMonto(tipo) {
+  montoSeleccion = tipo;
+  ['btn50','btn100'].forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
+  var sel = document.getElementById('aqp-taller');
+  var precio = sel.value ? PRECIOS[sel.value] : 0;
+  var n = cuposSeleccionados;
+  var total = precio * n;
+  var mitad = Math.ceil(total * 0.5);
+  var hint = document.getElementById('monto-hint');
+  var montoInput = document.getElementById('aqp-monto');
+  if (!precio) { if(hint) hint.textContent = 'Primero selecciona un taller.'; return; }
+  if (tipo === '50') {
+    var el50 = document.getElementById('btn50'); if(el50) el50.classList.add('active');
+    montoInput.value = mitad;
+    if(hint) hint.textContent = '✓ Abonas S/ ' + mitad + ' ahora · Pagas S/ ' + mitad + ' el día del taller';
+  } else if (tipo === '100') {
+    var el100 = document.getElementById('btn100'); if(el100) el100.classList.add('active');
+    montoInput.value = total;
+    if(hint) hint.textContent = '✓ Pagas el total de S/ ' + total + ' ahora';
+  }
+}
+
+function getMontoFinal() {
+  if (montoSeleccion === 'otro') {
+    var v = document.getElementById('aqp-monto-custom').value;
+    return v ? parseFloat(v) : null;
+  }
+  var v = document.getElementById('aqp-monto').value;
+  return v ? parseFloat(v) : null;
+}
+
+// ═══════════════════════════════════════
+// IMAGEN
+// ═══════════════════════════════════════
+var comprobanteData = null;
+
+function previewImage(inputId, imgId, wrapId) {
+  var file = document.getElementById(inputId).files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { alert('La imagen es demasiosa grande (máx 5MB).'); return; }
+  var r = new FileReader();
+  r.onload = function(e) {
+    comprobanteData = e.target.result;
+    document.getElementById(imgId).src = e.target.result;
+    document.getElementById(wrapId).style.display = 'block';
+    document.getElementById('uploadIconAqp').style.display = 'none';
+    document.getElementById('uploadTextAqp').style.display = 'none';
+  };
+  r.readAsDataURL(file);
+}
+
+function removeImage() {
+  document.getElementById('aqp-comprobante').value = '';
+  document.getElementById('previewImgAqp').src = '';
+  document.getElementById('previewWrapAqp').style.display = 'none';
+  document.getElementById('uploadIconAqp').style.display = 'block';
+  document.getElementById('uploadTextAqp').style.display = 'block';
+  comprobanteData = null;
+}
+
+// ═══════════════════════════════════════
+// FORM SUBMIT
+// ═══════════════════════════════════════
+async function handleSubmitAqp(e) {
+  e.preventDefault();
+  // Validación con nombres de campos específicos
+  var errores = [];
+  if (!document.getElementById('aqp-taller').value) errores.push('Taller');
+  if (!document.getElementById('aqp-nombre').value.trim()) errores.push('Nombre');
+  if (!document.getElementById('aqp-apellido').value.trim()) errores.push('Apellido');
+  if (!document.getElementById('aqp-whatsapp').value.trim()) errores.push('WhatsApp');
+  if (!document.getElementById('aqp-email').value.trim()) errores.push('Correo electrónico');
+  var metodo = document.getElementById('aqp-metodo-pago') ? document.getElementById('aqp-metodo-pago').value : 'yape';
+  if (metodo === 'yape' && !comprobanteData) errores.push('Foto del comprobante Yape');
+  var montoFinal = getMontoFinal();
+  if (!montoFinal) errores.push('Monto a abonar');
+  // Datos de nacimiento solo para carta astral
+  var tallerVal = document.getElementById('aqp-taller').value;
+  if (tallerVal === 'carta_astral_aqp') {
+    if (!document.getElementById('aqp-cumple').value) errores.push('Fecha de nacimiento');
+    if (!document.getElementById('aqp-lugar-nac').value.trim()) errores.push('Lugar de nacimiento');
+  }
+  if (errores.length > 0) {
+    alert('Falta completar:\n· ' + errores.join('\n· '));
+    return;
+  }
+  var btn = document.getElementById('btnSubmitAqp');
+  btn.disabled = true;
+  btn.textContent = 'Enviando... ☽';
+  var nombre = document.getElementById('aqp-nombre').value.trim();
+  var email = document.getElementById('aqp-email').value.trim();
+  var taller = document.getElementById('aqp-taller').value;
+
+  var personas = getPersonasAdicionales();
+  var metodoAqp = document.getElementById('aqp-metodo-pago') ? document.getElementById('aqp-metodo-pago').value : 'yape';
+  var reg = {
+    nombre: nombre,
+    apellido: document.getElementById('aqp-apellido').value.trim(),
+    cumple: document.getElementById('aqp-cumple').value || null,
+    hora_nacimiento: document.getElementById('aqp-hora-nac') ? document.getElementById('aqp-hora-nac').value : null,
+    lugar_nacimiento: document.getElementById('aqp-lugar-nac') ? document.getElementById('aqp-lugar-nac').value.trim() : null,
+    whatsapp: document.getElementById('aqp-whatsapp').value.trim(),
+    email: email,
+    taller: taller,
+    monto: montoFinal,
+    cupos: cuposSeleccionados,
+    metodo_pago: metodoAqp,
+    ciudad: 'Arequipa',
+    personas_adicionales: personas.length ? JSON.stringify(personas) : null,
+    comprobante: comprobanteData || null,
+    comentarios: document.getElementById('aqp-comentarios').value.trim() || null
+  };
+
+  try {
+    await sbInsert(reg);
+    try { await enviarCorreo(nombre, email, taller, montoFinal, personas); } catch(mailErr) { console.warn('Correo no enviado:', mailErr); }
+    document.getElementById('formAqp').style.display = 'none';
+    document.getElementById('successAqp').classList.add('show');
+  } catch(err) {
+    alert('Error: ' + err.message);
+    console.error(err);
+    btn.disabled = false;
+    btn.textContent = '☽ Confirmar inscripción';
+  }
+}
+
+function resetFormAqp() {
+  document.getElementById('formAqp').reset();
+  document.getElementById('formAqp').style.display = 'block';
+  document.getElementById('successAqp').classList.remove('show');
+  removeImage();
+  actualizarMonto();
+  setCupos(1);
+  var btn = document.getElementById('btnSubmitAqp');
+  btn.disabled = false;
+  btn.textContent = '☽ Confirmar inscripción';
+}
+
+// ═══════════════════════════════════════
+// MODAL & STARS & CITY
+// ═══════════════════════════════════════
+function openQuienes(){document.getElementById('quienesModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeQuienes(e){if(!e||e.target===document.getElementById('quienesModal')||e.currentTarget.classList.contains('modal-close')){document.getElementById('quienesModal').classList.remove('open');document.body.style.overflow='';}}
+
+(function(){
+  var c=document.getElementById('stars');
+  for(var i=0;i<60;i++){
+    var s=document.createElement('div'),sz=Math.random()*2.5+0.5;
+    s.className='star';
+    s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;--d:'+(Math.random()*3+2).toFixed(1)+'s;animation-delay:'+(Math.random()*4).toFixed(1)+'s';
+    c.appendChild(s);
+  }
+})();
+
+function selectCity(city){
+  document.querySelectorAll('.city-card').forEach(function(c){c.classList.remove('active');});
+  document.querySelectorAll('.city-content').forEach(function(c){c.classList.remove('active');});
+  document.getElementById('card-'+city).classList.add('active');
+  document.getElementById('content-'+city).classList.add('active');
+  setTimeout(function(){document.getElementById('content-'+city).scrollIntoView({behavior:'smooth'});},100);
+}
+function scrollToFormAqp(t){
+  document.getElementById('registro-aqp').scrollIntoView({behavior:'smooth'});
+  setTimeout(function(){document.getElementById('aqp-taller').value=t;actualizarMonto();},600);
+}
+
+// ═══════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════
+var PASS='73631994CVSF';
+var currentFilter='todos';
+
+function openAdmin(){var s=document.getElementById('adminSection');s.classList.toggle('open');if(s.classList.contains('open'))s.scrollIntoView({behavior:'smooth'});}
+function togglePass(){
+  var input = document.getElementById('adminPass');
+  var btn = document.getElementById('passEyeBtn');
+  if(input.type === 'password'){
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+function checkPass(){
+  var v=document.getElementById('adminPass').value;
+  var err=document.getElementById('loginError');
+  if(v===PASS){
+    document.getElementById('adminLogin').style.display='none';
+    document.getElementById('adminDashboard').classList.add('open');
+    renderStats();renderTable('todos');err.style.display='none';
+  }else{err.style.display='block';}
+}
+function logout(){
+  document.getElementById('adminLogin').style.display='block';
+  document.getElementById('adminDashboard').classList.remove('open');
+  document.getElementById('adminPass').value='';
+  document.getElementById('adminSection').classList.remove('open');
+}
+
+async function renderStats(){
+  document.getElementById('adminStats').innerHTML='<div style="color:var(--muted);font-size:0.8rem">Cargando... ☽</div>';
+  try{
+    var all=await sbSelect('todos');
+    var pred=all.filter(function(r){return r.taller==='tarot_predictivo';}).length;
+    var orac=all.filter(function(r){return r.taller==='tarot_oraculo';}).length;
+    document.getElementById('adminStats').innerHTML=
+      '<div class="stat-box"><div class="stat-num">'+all.length+'</div><div class="stat-label">Total inscritas</div></div>'+
+      '<div class="stat-box"><div class="stat-num">'+pred+'</div><div class="stat-label">Tarot Predictivo</div></div>'+
+      '<div class="stat-box"><div class="stat-num">'+orac+'</div><div class="stat-label">Tarot y Oráculo</div></div>';
+  }catch(err){document.getElementById('adminStats').innerHTML='<div style="color:var(--coral);font-size:0.8rem">Error al cargar</div>';}
+}
+
+function filterTable(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  renderTable(f);
+}
+function formatDate(d){if(!d)return'—';var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+
+async function renderTable(filter){
+  currentFilter=filter;
+  var loading=document.getElementById('adminLoading');
+  var empty=document.getElementById('emptyState');
+  var tbody=document.getElementById('registrosBody');
+  loading.style.display='block';empty.style.display='none';tbody.innerHTML='';
+  try{
+    var all=await sbSelect(filter);
+    loading.style.display='none';
+    if(!all.length){empty.style.display='block';return;}
+    tbody.innerHTML=all.map(function(r,i){
+      return '<tr>'+
+        '<td>'+(i+1)+'</td>'+
+        '<td>'+r.nombre+' '+r.apellido+'</td>'+
+        '<td>'+formatDate(r.cumple)+'</td>'+
+        '<td><a href="https://wa.me/51'+r.whatsapp+'" target="_blank" style="color:var(--gold-light);text-decoration:none">'+r.whatsapp+'</a></td>'+
+        '<td style="font-size:0.78rem">'+(r.email||'—')+'</td>'+
+        '<td><span class="badge badge-predictivo">'+( r.taller ? r.taller.replace(/_/g,' ').replace('aqp','AQP').replace('lima','Lima') : '—' )+'</span></td>'+
+        '<td style="text-align:center;color:var(--cream);font-weight:500">'+(r.cupos||1)+'</td>'+
+        '<td style="color:var(--gold-light);font-weight:500">'+(r.monto?'S/ '+r.monto:'—')+'</td>'+
+        '<td>'+(r.comprobante?'<a href="'+r.comprobante+'" target="_blank" style="color:var(--gold);font-size:0.78rem">Ver &#128444;</a>':'—')+'</td>'+
+        '<td style="white-space:nowrap;font-size:0.75rem">'+(r.fecha_registro||'—')+'</td>'+
+        '<td style="max-width:140px;word-break:break-word;font-size:0.78rem">'+(r.comentarios||'—')+'</td>'+
+        '</tr>';
+    }).join('');
+  }catch(err){
+    loading.style.display='none';
+    tbody.innerHTML='<tr><td colspan="11" style="color:var(--coral);text-align:center;padding:2rem">Error al cargar. Verifica tu conexión.</td></tr>';
+  }
+}
+
+async function exportCSV(){
+  try{
+    var all=await sbSelect('todos');
+    if(!all.length){alert('No hay registros aún.');return;}
+    var h=['#','Nombre','Apellido','Cumpleaños','WhatsApp','Email','Taller','Monto','Comentarios','Fecha registro'];
+    var rows=all.map(function(r,i){
+      return [i+1,r.nombre,r.apellido,formatDate(r.cumple),r.whatsapp,r.email,
+        r.taller==='tarot_predictivo'?'Tarot Predictivo':'Tarot y Oráculo',
+        r.monto,r.comentarios,r.fecha_registro
+      ].map(function(v){return'"'+((v||'').toString().replace(/"/g,'""'))+'"';}).join(',');
+    });
+    var csv=[h.join(',')].concat(rows).join('\n');
+    var a=document.createElement('a');
+    a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+    a.download='luna_menguante_'+new Date().toISOString().slice(0,10)+'.csv';
+    a.click();
+  }catch(err){alert('Error al exportar.');}
+}
+
+function scrollToFormLima(taller) {
+  selectCity('lima');
+  setTimeout(function(){
+    var el = document.getElementById('registro-lima');
+    if(el) el.scrollIntoView({behavior:'smooth'});
+    setTimeout(function(){
+      var sel = document.getElementById('lima-taller');
+      if(sel && taller) { sel.value = taller; actualizarMontoLima(); }
+    }, 400);
+  }, 300);
+}
+function actualizarMontoLima() {
+  var sel = document.getElementById('lima-taller');
+  var precio = sel && sel.value ? PRECIOS[sel.value] : 0;
+  var mitad = precio ? Math.ceil(precio * 0.5) : 0;
+  var hint = document.getElementById('lima-monto-hint');
+  var btn50 = document.getElementById('lima-btn50');
+  var btn100 = document.getElementById('lima-btn100');
+  if (precio) {
+    if(btn50) btn50.textContent = '50% · Abonas S/ ' + mitad;
+    if(btn100) btn100.textContent = 'Total · Pagas S/ ' + precio;
+    if(hint) hint.textContent = '';
+  } else {
+    if(btn50) btn50.textContent = '50% de reserva';
+    if(btn100) btn100.textContent = 'Monto total';
+  }
+  // Reset monto selection
+  ['lima-btn50','lima-btn100'].forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
+  document.getElementById('lima-monto').value = '';
+  var birthDiv = document.getElementById('lima-birth-fields');
+  if (birthDiv) birthDiv.style.display = (sel && sel.value === 'carta_astral_lima') ? 'block' : 'none';
+  var cafeDiv = document.getElementById('lima-cafecito-notice');
+  if (cafeDiv) cafeDiv.style.display = (sel && sel.value === 'cafecito_lima') ? 'block' : 'none';
+}
+function seleccionarMontoLima(tipo) {
+  var sel = document.getElementById('lima-taller');
+  var precio = sel && sel.value ? PRECIOS[sel.value] : 0;
+  var hint = document.getElementById('lima-monto-hint');
+  if (!precio) { if(hint) hint.textContent = 'Primero selecciona un taller.'; return; }
+  ['lima-btn50','lima-btn100'].forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
+  var activeEl = document.getElementById('lima-btn'+tipo); if(activeEl) activeEl.classList.add('active');
+  var mitad = Math.ceil(precio * 0.5);
+  if (tipo === '50') {
+    document.getElementById('lima-monto').value = mitad;
+    if(hint) hint.textContent = '✓ Abonas S/ ' + mitad + ' ahora · Pagas S/ ' + mitad + ' el día del taller';
+    var btn50 = document.getElementById('lima-btn50'); if(btn50) btn50.textContent = '50% · Abonas S/ ' + mitad;
+  } else {
+    document.getElementById('lima-monto').value = precio;
+    if(hint) hint.textContent = '✓ Pagas el total de S/ ' + precio + ' ahora';
+    var btn100 = document.getElementById('lima-btn100'); if(btn100) btn100.textContent = 'Total · Pagas S/ ' + precio;
+  }
+}
+function seleccionarPagoLima(metodo) {
+  var metodoEl = document.getElementById('lima-metodo-pago');
+  if(metodoEl) metodoEl.value = metodo;
+  ['lima-btn-yape','lima-btn-mp'].forEach(function(id){
+    var el = document.getElementById(id); if(el) el.classList.remove('active');
+  });
+  var activeBtn = document.getElementById('lima-btn-'+metodo);
+  if(activeBtn) activeBtn.classList.add('active');
+  var yapeEl = document.getElementById('lima-yape-section');
+  var mpEl = document.getElementById('lima-mp-section');
+  if(yapeEl) yapeEl.style.display = metodo === 'yape' ? 'block' : 'none';
+  if(mpEl) mpEl.style.display = metodo === 'mercadopago' ? 'block' : 'none';
+  if (metodo === 'mercadopago') {
+    var tallerEl = document.getElementById('lima-taller');
+    var taller = tallerEl ? tallerEl.value : '';
+    if (!taller) {
+      alert('Primero selecciona el taller en el menú de arriba.');
+      if(activeBtn) activeBtn.classList.remove('active');
+      var yapeBtn = document.getElementById('lima-btn-yape');
+      if(yapeBtn) yapeBtn.classList.add('active');
+      if(metodoEl) metodoEl.value = 'yape';
+      if(yapeEl) yapeEl.style.display = 'block';
+      if(mpEl) mpEl.style.display = 'none';
+      return;
+    }
+    // Tarjeta = pago total obligatorio
+    var b50lima = document.getElementById('lima-btn50');
+    if(b50lima) { b50lima.disabled = true; b50lima.style.opacity = '0.35'; b50lima.classList.remove('active'); }
+    seleccionarMontoLima('100');
+    var link = document.getElementById('lima-mp-direct-link');
+    var mpUrl = MP_LINKS[taller] || 'https://mpago.la/2gwPG4n';
+    if(link) { link.href = mpUrl; link.style.display = 'inline-block'; }
+  } else {
+    var link2 = document.getElementById('lima-mp-direct-link');
+    if(link2) link2.style.display = 'none';
+    // Restore 50% button
+    var b50lr = document.getElementById('lima-btn50'); if(b50lr) { b50lr.disabled = false; b50lr.style.opacity = '1'; }
+  }
+}
+function seleccionarPagoAqp(metodo) {
+  document.getElementById('aqp-metodo-pago').value = metodo;
+  ['aqp-btn-yape','aqp-btn-mp'].forEach(function(id){
+    var el = document.getElementById(id); if(el) el.classList.remove('active');
+  });
+  var activeBtn = document.getElementById('aqp-btn-'+metodo);
+  if(activeBtn) activeBtn.classList.add('active');
+  var yapeEl = document.getElementById('aqp-yape-section');
+  var mpEl = document.getElementById('aqp-mp-notice');
+  if(yapeEl) yapeEl.style.display = metodo === 'yape' ? 'block' : 'none';
+  if(mpEl) mpEl.style.display = metodo === 'mercadopago' ? 'block' : 'none';
+  if (metodo === 'mercadopago') {
+    var taller = document.getElementById('aqp-taller').value;
+    if (!taller) {
+      alert('Primero selecciona el taller en el menú de arriba.');
+      var yapeBtn = document.getElementById('aqp-btn-yape');
+      if(activeBtn) activeBtn.classList.remove('active');
+      if(yapeBtn) yapeBtn.classList.add('active');
+      document.getElementById('aqp-metodo-pago').value = 'yape';
+      if(yapeEl) yapeEl.style.display = 'block';
+      if(mpEl) mpEl.style.display = 'none';
+      // Restore 50% button
+      var b50 = document.getElementById('btn50'); if(b50) b50.disabled = false; b50.style.opacity = '1';
+      return;
+    }
+    // Tarjeta = pago total obligatorio
+    var b50aqp = document.getElementById('btn50');
+    var b100aqp = document.getElementById('btn100');
+    if(b50aqp) { b50aqp.disabled = true; b50aqp.style.opacity = '0.35'; b50aqp.classList.remove('active'); }
+    seleccionarMonto('100');
+    var link = document.getElementById('aqp-mp-direct-link');
+    var mpUrl = MP_LINKS[taller] || 'https://mpago.la/2br34eo';
+    if(link) { link.href = mpUrl; link.style.display = 'inline-block'; }
+  } else {
+    var link2 = document.getElementById('aqp-mp-direct-link');
+    if(link2) link2.style.display = 'none';
+    // Restore 50% button
+    var b50r = document.getElementById('btn50'); if(b50r) { b50r.disabled = false; b50r.style.opacity = '1'; }
+  }
+}
+async function handleSubmitLima(e) {
+  e.preventDefault();
+  var errores = [];
+  var taller = document.getElementById('lima-taller').value;
+  var metodoEl = document.getElementById('lima-metodo-pago');
+  var metodo = metodoEl ? metodoEl.value : 'yape';
+  if (!taller) errores.push('Taller');
+  if (!document.getElementById('lima-nombre').value.trim()) errores.push('Nombre');
+  if (!document.getElementById('lima-apellido').value.trim()) errores.push('Apellido');
+  if (!document.getElementById('lima-whatsapp').value.trim()) errores.push('WhatsApp');
+  if (!document.getElementById('lima-email').value.trim()) errores.push('Correo electrónico');
+  if (!document.getElementById('lima-monto').value) errores.push('Monto a abonar');
+  if (taller === 'carta_astral_lima') {
+    if (!document.getElementById('lima-nacimiento').value) errores.push('Fecha de nacimiento');
+    if (!document.getElementById('lima-lugar-nac').value.trim()) errores.push('Lugar de nacimiento');
+  }
+  if (errores.length > 0) {
+    alert('Falta completar:\n· ' + errores.join('\n· '));
+    return;
+  }
+  var monto = document.getElementById('lima-monto').value;
+  var btn = document.getElementById('btnSubmitLima');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  try {
+    await sbInsert({
+      nombre: document.getElementById('lima-nombre').value.trim(),
+      apellido: document.getElementById('lima-apellido').value.trim(),
+      cumple: document.getElementById('lima-nacimiento') ? document.getElementById('lima-nacimiento').value || null : null,
+      hora_nacimiento: document.getElementById('lima-hora-nac') ? document.getElementById('lima-hora-nac').value || null : null,
+      lugar_nacimiento: document.getElementById('lima-lugar-nac') ? document.getElementById('lima-lugar-nac').value.trim() || null : null,
+      whatsapp: document.getElementById('lima-whatsapp').value.trim(),
+      email: document.getElementById('lima-email').value.trim(),
+      taller: taller,
+      cupos: 1,
+      monto: parseFloat(monto),
+      metodo_pago: metodo,
+      ciudad: 'Lima',
+      comprobante: null,
+      comentarios: document.getElementById('lima-comentarios').value.trim() || null
+    });
+    await enviarCorreo(document.getElementById('lima-nombre').value, taller, monto, []);
+    document.getElementById('formLima').style.display = 'none';
+    // Custom success message for cafecito
+    if (taller === 'cafecito_lima') {
+      document.getElementById('successLima').querySelector('p').innerHTML = '¡Tu lugar está reservado! &#128231; Revisa tu correo y pronto te escribiremos por <strong style="color:var(--gold)">WhatsApp</strong> para coordinar tu horario del domingo 17 de mayo 🌙';
+    }
+    document.getElementById('successLima').style.display = 'block';
+    if (metodo === 'mercadopago' && MP_LINKS[taller]) {
+      var mpBtnL = document.getElementById('lima-mp-pay-btn');
+      if (mpBtnL) { mpBtnL.href = MP_LINKS[taller]; mpBtnL.style.display = 'inline-block'; }
+    }
+  } catch(err) {
+    console.error(err);
+    alert('Error: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '☽ Confirmar inscripción';
+  }
+}
+
+</script>
+
+<!-- MODAL VER MÁS -->
+<div class="modal-taller-overlay" id="modalTaller" onclick="cerrarModalTaller(event)">
+  <div class="modal-taller-box" id="modalTallerBox">
+    <div class="modal-taller-header">
+      <div>
+        <h3 id="modal-nombre">Taller</h3>
+        <div class="modal-precio" id="modal-precio"></div>
+      </div>
+      <button class="modal-close-btn" onclick="cerrarModalTaller()">✕</button>
+    </div>
+    <div class="modal-taller-body">
+      <div class="modal-fecha-lugar" id="modal-fecha-lugar"></div>
+      <p class="modal-desc" id="modal-desc"></p>
+      <p class="modal-incluye-title">Incluye</p>
+      <ul class="modal-incluye-list" id="modal-incluye"></ul>
+      <div class="modal-actions">
+        <button class="modal-btn-inscribir" id="modal-btn-inscribir">Inscribirme</button>
+        <button class="modal-btn-otros" onclick="cerrarModalTaller()">Ver otros talleres</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- MODAL VER MÁS -->
+<div class="modal-taller-overlay" id="modalTaller" onclick="cerrarModalTaller(event)">
+  <div class="modal-taller-box" id="modalTallerBox">
+    <div class="modal-taller-header">
+      <div>
+        <h3 id="modal-nombre">Taller</h3>
+        <div class="modal-precio" id="modal-precio"></div>
+      </div>
+      <button class="modal-close-btn" onclick="cerrarModalTaller()">✕</button>
+    </div>
+    <div class="modal-taller-body">
+      <div class="modal-fecha-lugar" id="modal-fecha-lugar"></div>
+      <p class="modal-desc" id="modal-desc"></p>
+      <p class="modal-incluye-title">Incluye</p>
+      <ul class="modal-incluye-list" id="modal-incluye"></ul>
+      <div class="modal-actions">
+        <button class="modal-btn-inscribir" id="modal-btn-inscribir">Inscribirme</button>
+        <button class="modal-btn-otros" onclick="cerrarModalTaller()">Ver otros talleres</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var TALLERES_INFO = {
+  carta_astral_aqp: {
+    nombre: 'Carta Astral', precio: 'S/ 120',
+    fecha: '📅 Sábado 18 de abril · 9:00 a.m. – 12:00 p.m.',
+    lugar: '📍 7 Vidas Taproom · C. Moral 305, Arequipa',
+    desc: 'Aprende qué es la carta astral y conoce la tuya: lo que revela sobre tu personalidad, tus talentos, tus retos y la forma en que te vinculas con los demás.',
+    incluye: ['📜 Carta astral interpretada (impresa + digital)', '🥐 Bocaditos', '🍷 Sangría ilimitada (o bebida sin alcohol)'],
+    accion: function(){ cerrarModalTaller(); scrollToFormAqp('carta_astral_aqp'); }
+  },
+  primera_lectura_aqp: {
+    nombre: 'Tu Primera Lectura de Tarot', precio: 'S/ 120',
+    fecha: '📅 Sábado 18 de abril · 1:00 p.m. – 4:00 p.m.',
+    lugar: '📍 7 Vidas Taproom · C. Moral 305, Arequipa',
+    desc: 'Conecta con las cartas desde tu intuición. Aprende a realizar tu primera lectura de tarot de forma práctica y sencilla.',
+    incluye: ['🃏 Tarot (te lo llevas a casa)', '📱 Guía exclusiva digital e impresa', '🥐 Bocaditos', '🍷 Sangría ilimitada (o bebida sin alcohol)'],
+    accion: function(){ cerrarModalTaller(); scrollToFormAqp('primera_lectura_aqp'); }
+  },
+  numerologia_aqp: {
+    nombre: 'Numerología', precio: 'S/ 120',
+    fecha: '📅 Sábado 25 de abril · 9:00 a.m. – 12:00 p.m.',
+    lugar: '📍 7 Vidas Taproom · C. Moral 305, Arequipa',
+    desc: 'Descubre el significado de los números en tu vida. Entiende cómo influyen en tu propósito, decisiones y energía personal.',
+    incluye: ['📱 Guía exclusiva digital e impresa', '🥐 Bocaditos', '🍷 Sangría ilimitada (o bebida sin alcohol)'],
+    accion: function(){ cerrarModalTaller(); scrollToFormAqp('numerologia_aqp'); }
+  },
+  arcanos_mayores_aqp: {
+    nombre: 'Arcanos Mayores', precio: 'S/ 120',
+    fecha: '📅 Sábado 25 de abril · 2:00 p.m. – 5:00 p.m.',
+    lugar: '📍 7 Vidas Taproom · C. Moral 305, Arequipa',
+    desc: 'Explora el significado y la energía de cada arcano mayor. Comprende sus símbolos y cómo se reflejan en tu vida.',
+    incluye: ['🃏 Tarot (te lo llevas a casa)', '📱 Guía exclusiva digital', '🥐 Bocaditos', '🍷 Sangría ilimitada (o bebida sin alcohol)'],
+    accion: function(){ cerrarModalTaller(); scrollToFormAqp('arcanos_mayores_aqp'); }
+  },
+  cafecito_aqp: {
+    nombre: 'Cafecito con Adri', precio: 'S/ 180',
+    fecha: '📅 Domingos de abril: 6, 13, 20 y 27 · 4:00 p.m. – 7:00 p.m.',
+    lugar: '📍 Arequipa · dirección confirmada al inscribirse',
+    desc: 'Una lectura de tarot personalizada en un espacio íntimo. Reservas tu lugar y coordinamos el horario por WhatsApp. Solo 3 turnos por día.',
+    incluye: ['☕ Cafecito + postre', '🔮 Lectura personalizada (45 min)', '🌙 Coaching evolutivo'],
+    accion: function(){ cerrarModalTaller(); scrollToFormAqp('cafecito_aqp'); }
+  },
+  carta_astral_lima: {
+    nombre: 'Carta Astral', precio: 'S/ 150',
+    fecha: '📅 Sábado 16 de mayo · 9:00 a.m. – 12:00 p.m.',
+    lugar: '📍 Casa Kintu · Jr. Océano Atlántico 309, Surco, Lima',
+    desc: 'Aprende qué es la carta astral y conoce la tuya: lo que revela sobre tu personalidad, tus talentos, tus retos y la forma en que te vinculas con los demás.',
+    incluye: ['📜 Carta astral interpretada (impresa + digital)', '🥐 Bocaditos', '🍷 Sangría ilimitada (o bebida sin alcohol)'],
+    accion: function(){ cerrarModalTaller(); scrollToFormLima('carta_astral_lima'); }
+  },
+  primera_lectura_lima: {
+    nombre: 'Tu Primera Lectura de Tarot', precio: 'S/ 150',
+    fecha: '📅 Sábado 16 de mayo · 1:00 p.m. – 4:00 p.m.',
+    lugar: '📍 Casa Kintu · Jr. Océano Atlántico 309, Surco, Lima',
+    desc: 'Conecta con las cartas desde tu intuición. Aprende a realizar tu primera lectura de tarot de forma práctica y sencilla.',
+    incluye: ['🃏 Tarot (te lo llevas a casa)', '📱 Guía exclusiva digital e impresa', '🥐 Bocaditos', '🍷 Sangría ilimitada (o bebida sin alcohol)'],
+    accion: function(){ cerrarModalTaller(); scrollToFormLima('primera_lectura_lima'); }
+  },
+  numerologia_lima: {
+    nombre: 'Numerología', precio: 'S/ 150',
+    fecha: '📅 Sábado 16 de mayo · 5:30 p.m. – 8:30 p.m.',
+    lugar: '📍 Casa Kintu · Jr. Océano Atlántico 309, Surco, Lima',
+    desc: 'Descubre el significado de los números en tu vida. Entiende cómo influyen en tu propósito, decisiones y energía personal.',
+    incluye: ['📱 Guía exclusiva digital e impresa', '🥐 Bocaditos', '🍷 Sangría ilimitada (o bebida sin alcohol)'],
+    accion: function(){ cerrarModalTaller(); scrollToFormLima('numerologia_lima'); }
+  },
+  cafecito_lima: {
+    nombre: 'Cafecito con Adri', precio: 'S/ 180',
+    fecha: '📅 Domingo 17 de mayo · Horario coordinado por WhatsApp',
+    lugar: '📍 Lima · dirección confirmada al inscribirse',
+    desc: 'Una lectura de tarot personalizada en un espacio íntimo en Lima. Reservas tu lugar y te escribimos por WhatsApp para coordinar el horario.',
+    incluye: ['☕ Cafecito + postre', '🔮 Lectura personalizada (45 min)', '🌙 Coaching evolutivo'],
+    accion: function(){ cerrarModalTaller(); scrollToFormLima('cafecito_lima'); }
+  }
+};
+
+function abrirModalTaller(tallerKey) {
+  var info = TALLERES_INFO[tallerKey];
+  if (!info) return;
+  document.getElementById('modal-nombre').textContent = info.nombre;
+  document.getElementById('modal-precio').textContent = info.precio + ' · Por persona';
+  var fl = document.getElementById('modal-fecha-lugar');
+  fl.innerHTML = '<span>' + info.fecha + '</span><span>' + info.lugar + '</span>';
+  document.getElementById('modal-desc').textContent = info.desc;
+  var lista = document.getElementById('modal-incluye');
+  lista.innerHTML = info.incluye.map(function(i){ return '<li>' + i + '</li>'; }).join('');
+  document.getElementById('modal-btn-inscribir').onclick = info.accion;
+  document.getElementById('modalTaller').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+
+function abrirModalPack() {
+  var info = {
+    nombre: 'Pack 3 Talleres · Lima',
+    precio: 'S/ 420 · (Ahorras S/ 30)',
+    fecha: '📅 Sábado 16 de mayo · 9:00 a.m. – 8:30 p.m.',
+    lugar: '📍 Casa Kintu · Jr. Océano Atlántico 309, Surco, Lima',
+    desc: 'Los 3 talleres del sábado 16 de mayo en un solo pack: Carta Astral (9am), Tu Primera Lectura de Tarot (1pm) y Numerología (5:30pm). Precio normal S/ 450 — con el pack S/ 420.',
+    incluye: ['⭐ Carta Astral · 9:00am – 12:00pm', '🃏 Tu Primera Lectura de Tarot · 1:00pm – 4:00pm', '🔢 Numerología · 5:30pm – 8:30pm', '🥐 Bocaditos en cada taller', '🍷 Sangría ilimitada en cada taller', '📱 Guía digital de cada taller'],
+    accion: function(){ cerrarModalTaller(); scrollToFormLima('pack_3_lima'); }
+  };
+  document.getElementById('modal-nombre').textContent = info.nombre;
+  document.getElementById('modal-precio').textContent = info.precio;
+  var fl = document.getElementById('modal-fecha-lugar');
+  fl.innerHTML = '<span>' + info.fecha + '</span><span>' + info.lugar + '</span>';
+  document.getElementById('modal-desc').textContent = info.desc;
+  var lista = document.getElementById('modal-incluye');
+  lista.innerHTML = info.incluye.map(function(i){ return '<li>' + i + '</li>'; }).join('');
+  document.getElementById('modal-btn-inscribir').onclick = info.accion;
+  document.getElementById('modalTaller').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModalTaller(e) {
+  if (e && e.target !== document.getElementById('modalTaller')) return;
+  document.getElementById('modalTaller').classList.remove('open');
+  document.body.style.overflow = '';
+}
+</script>
+
+</body>
