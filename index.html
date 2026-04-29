@@ -2326,6 +2326,7 @@ function buildCalendarLinks(titulo, fechaISO, horaStr, lugar, duracionMin) {
   return { gcal: gcalUrl, ics: icsUrl };
 }
 
+function escHTML(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
 function buildEmailHTML(nombre,taller,monto,waLink,personas,isConfirmed,fechaCita,horaCita){
   personas=personas||[];isConfirmed=isConfirmed||false;
   var nombreTaller=(typeof NOMBRES_TALLER_CORTO!=='undefined'&&NOMBRES_TALLER_CORTO[taller])?NOMBRES_TALLER_CORTO[taller]:taller.replace(/_/g,' ').replace(/aqp/gi,'Arequipa').replace(/lima/gi,'Lima');
@@ -2340,7 +2341,7 @@ function buildEmailHTML(nombre,taller,monto,waLink,personas,isConfirmed,fechaCit
   if(horaCita){var hh=parseInt(horaCita.split(':')[0]),mm=horaCita.split(':')[1];horaStr=(hh>12?hh-12:hh)+':'+mm+' '+(hh>=12?'pm':'am');}
   else if(tallerDetalle&&tallerDetalle.hora){horaStr=tallerDetalle.hora;}
   var personasHTML='';
-  if(personas.length>0){personasHTML='<div style="background:#fff8ee;border:1px solid #e0c898;padding:10px 14px;margin:8px 0 0"><p style="color:#c9a84c;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin:0 0 5px">Personas adicionales</p>'+personas.map(function(p,i){return '<p style="margin:2px 0;font-size:13px;color:#3d2314">👤 <strong>Persona '+(i+2)+':</strong> '+(p.nombre||'—')+(p.whatsapp?' · '+p.whatsapp:'')+'</p>';}).join('')+'</div>';}
+  if(personas.length>0){personasHTML='<div style="background:#fff8ee;border:1px solid #e0c898;padding:10px 14px;margin:8px 0 0"><p style="color:#c9a84c;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin:0 0 5px">Personas adicionales</p>'+personas.map(function(p,i){return '<p style="margin:2px 0;font-size:13px;color:#3d2314">👤 <strong>Persona '+(i+2)+':</strong> '+escHTML(p.nombre||'—')+(p.whatsapp?' · '+escHTML(p.whatsapp):'')+'</p>';}).join('')+'</div>';}
   var mNum=parseFloat(monto)||0;var totalEsp=esCafecito?180:null;
   var pagoRestHTML=totalEsp&&mNum<totalEsp?'<div style="margin-top:14px;padding:10px 14px;background:#fffbf0;border-left:3px solid #c9a84c;border-radius:0 4px 4px 0"><p style="font-size:12px;color:#8a7060;margin:0;font-style:italic;line-height:1.6">💰 Si tienes pago pendiente, no olvides llevarlo el día del taller.</p></div>':'';
   var condItems=esCafecito?['Llega 10 minutos antes para comenzar la sesión con calma.','Este es un espacio íntimo y personal, no está diseñado para asistir con niños.','Si deseas profundizar en algún tema, puedes traerlo pensado previamente ✍️','Es un espacio de guía y autoconocimiento, no determinista: tú tienes el poder de decisión.','Puedes reagendar una sola vez con al menos 24 horas de anticipación.']:['Los lugares son exactos. No es posible asistir con personas adicionales que no hayan reservado.','No está permitido asistir con niños o bebés, ya que es un espacio pensado para adultos.','No realizamos devoluciones, pero tu cupo es transferible. Avísanos con al menos 24 horas de anticipación.','Si tienes saldo pendiente, indícanos si cancelarás en efectivo para llevar el cambio.','No necesitas conocimientos previos ni materiales especiales. Todo estará incluido.','Este no es un espacio de lectura personalizada, sino un taller donde aprenderás a realizarla con nuestra guía 🌙'];
@@ -2393,7 +2394,7 @@ function buildEmailHTML(nombre,taller,monto,waLink,personas,isConfirmed,fechaCit
     return '<!DOCTYPE html><html><head><meta charset="UTF-8"/></head><body style="margin:0;padding:0;background:#f0e9df;font-family:Georgia,serif">'
       +'<div style="max-width:580px;margin:0 auto;background:#faf5ee;border:1px solid #e0d0b8">'
       +'<div style="padding:26px;text-align:center;background:#1a120b;border-bottom:2px solid #c9a84c"><p style="color:#c9a84c;font-size:10px;letter-spacing:4px;text-transform:uppercase;margin:0 0 4px">Luna Menguante</p><h1 style="color:#e8c97a;font-size:22px;font-weight:300;margin:0">Pre-reserva recibida ✨</h1></div>'
-      +'<div style="padding:26px 30px;background:#faf5ee"><p style="font-size:15px;color:#3d2314">Hola <strong>'+nombre+'</strong>, 😊</p><p style="font-size:14px;line-height:1.8;color:#5a3a28">Recibimos tu pre-reserva. <strong>Te confirmaremos por correo una vez validemos tu pago.</strong> Revisa tu bandeja de entrada o spam.</p><p style="font-size:13px;color:#5a3a28;background:#fff8ee;border-left:3px solid #c9a84c;padding:10px 14px;margin:12px 0">🔍 Estamos revisando tu comprobante. Te confirmamos en breve.</p>'
+      +'<div style="padding:26px 30px;background:#faf5ee"><p style="font-size:15px;color:#3d2314">Hola <strong>'+escHTML(nombre)+'</strong>, 😊</p><p style="font-size:14px;line-height:1.8;color:#5a3a28">Recibimos tu pre-reserva. <strong>Te confirmaremos por correo una vez validemos tu pago.</strong> Revisa tu bandeja de entrada o spam.</p><p style="font-size:13px;color:#5a3a28;background:#fff8ee;border-left:3px solid #c9a84c;padding:10px 14px;margin:12px 0">🔍 Estamos revisando tu comprobante. Te confirmamos en breve.</p>'
       +'<div style="background:#fff8ee;border:1px solid #e0c898;padding:14px 18px;margin:12px 0"><p style="color:#c9a84c;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin:0 0 8px">Tu reserva</p>'
       +'<table style="border-collapse:collapse;width:100%"><tr><td style="padding:4px 0;font-size:14px;color:#3d2314;width:26px">🎯</td><td style="padding:4px 0;font-size:14px;color:#3d2314"><strong>Taller:</strong> '+nombreTaller+'</td></tr>'
       +(fechaStr?'<tr><td style="padding:4px 0;font-size:14px;color:#3d2314">📅</td><td style="padding:4px 0;font-size:14px;color:#3d2314"><strong>Fecha:</strong> '+fechaStr+'</td></tr>':'')
@@ -2700,7 +2701,7 @@ async function handleSubmitAqp(e) {
     var waEl = document.getElementById('aqp-whatsapp');
     var aqpWa = waEl ? waEl.value.trim() : '';
     if (!aqpWa) errores.push('WhatsApp');
-    else if (aqpWa.replace(/[^0-9]/g,'').length < 8) errores.push('WhatsApp: mínimo 8 dígitos');
+    else if (aqpWa.replace(/[^0-9]/g,'').length < 9) errores.push('WhatsApp: mínimo 9 dígitos');
 
     var emailEl = document.getElementById('aqp-email');
     var aqpEmail = emailEl ? emailEl.value.trim() : '';
@@ -2946,7 +2947,7 @@ function scrollToFormAqp(t){
 // ═══════════════════════════════════════
 // ADMIN — NUEVO DASHBOARD
 // ═══════════════════════════════════════
-var PASS='73631994CVSF';
+var PASS_HASH='015d1e41a27c8ea34c113295a7bbf121ddd36fc86701d156c278504a922439df';
 var currentFilter='todos';
 var currentCiudad='';
 var _cuposExtra = 1;
